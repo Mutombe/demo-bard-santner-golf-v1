@@ -115,7 +115,7 @@ export default function Register() {
       <section className="relative bg-navy-950 text-white pt-24 sm:pt-32 pb-14 sm:pb-20 overflow-hidden">
         <div className="absolute inset-0 grid-lines opacity-40" />
         <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <p className="label-xs text-orange-500 mb-4">REGISTRATION / MULTI-STEP ENTRY</p>
+          <p className="label-xs text-orange-500 mb-4"><span className="animate-keyline">REGISTRATION / MULTI-STEP ENTRY</span></p>
           <h1 className="font-display uppercase leading-[0.88] text-balance" style={{ fontSize: 'clamp(2.5rem, 8vw, 7rem)' }}>
             BOOK YOUR<br />
             <span className="text-orange-500">TEE-TIME.</span>

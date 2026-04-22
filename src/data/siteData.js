@@ -204,7 +204,7 @@ export const courseFacts = {
       par: 5,
       length: '512m',
       note: 'Reachable in two for the brave. Water runs down the right the whole way.',
-      image: '/images/flags-fairway.jpg',
+      image: '/images/wide-action.jpg',
     },
     {
       name: 'THE CLUBHOUSE PAR 3',
@@ -409,12 +409,12 @@ export const prizeLadder = [
 
 export const navLinks = [
   { to: '/', label: 'HOME' },
-  { to: '/event', label: 'THE EVENT' },
-  { to: '/course', label: 'THE COURSE' },
+  { to: '/event', label: 'EVENT' },
+  { to: '/course', label: 'COURSE' },
   { to: '/calendar', label: 'CALENDAR' },
   { to: '/register', label: 'REGISTER' },
-  { to: '/conditions', label: 'CONDITIONS' },
-  { to: '/media', label: 'MEDIA' },
+  { to: '/conditions', label: 'RULES' },
+  { to: '/media', label: 'GALLERY' },
   { to: '/contact', label: 'CONTACT' },
 ];
 

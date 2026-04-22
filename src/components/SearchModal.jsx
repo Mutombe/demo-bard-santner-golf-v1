@@ -28,7 +28,7 @@ export default function SearchModal({ open, onClose }) {
 
     tournamentConditions.sections.forEach((s) => {
       if ((s.heading + s.body).toLowerCase().includes(needle))
-        out.push({ type: 'T&Cs', title: s.heading, sub: `Section ${s.number}`, to: '/conditions' });
+        out.push({ type: 'Rules', title: s.heading, sub: `Section ${s.number}`, to: '/conditions' });
     });
 
     faq.forEach((f) => {

@@ -30,7 +30,7 @@ export default function Calendar() {
         <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <div className="grid grid-cols-12 gap-6 sm:gap-8">
             <div className="col-span-12 lg:col-span-7">
-              <p className="label-xs text-orange-500 mb-4">03 / CALENDAR</p>
+              <p className="label-xs text-orange-500 mb-4"><span className="animate-keyline">03 / CALENDAR</span></p>
               <h1 className="font-display uppercase leading-[0.88] text-balance" style={{ fontSize: 'clamp(3rem, 9vw, 9rem)' }}>
                 NINE<br />
                 ROUNDS.<br />
@@ -71,7 +71,7 @@ export default function Calendar() {
       <section className="py-14 sm:py-20 bg-steel-50">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <SectionReveal>
-            <p className="label-xs text-orange-500 mb-4">AT A GLANCE</p>
+            <p className="label-xs text-orange-500 mb-4"><span className="animate-keyline">AT A GLANCE</span></p>
             <h2 className="font-display uppercase text-navy-900 leading-[0.9] mb-10" style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}>
               EVERY ROUND.
             </h2>

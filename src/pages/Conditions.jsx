@@ -27,10 +27,10 @@ export default function Conditions() {
       <section className="relative bg-navy-950 text-white pt-24 sm:pt-32 pb-14 sm:pb-20 overflow-hidden no-print">
         <div className="absolute inset-0 grid-lines opacity-40" />
         <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <p className="label-xs text-orange-500 mb-4">04 / CONDITIONS</p>
+          <p className="label-xs text-orange-500 mb-4"><span className="animate-keyline">04 / RULES</span></p>
           <h1 className="font-display uppercase leading-[0.88] text-balance" style={{ fontSize: 'clamp(2.5rem, 8vw, 8rem)' }}>
             TOURNAMENT<br />
-            <span className="text-orange-500">CONDITIONS.</span>
+            <span className="text-orange-500">RULES.</span>
           </h1>
           <p className="mt-6 max-w-3xl text-steel-300 text-lg">
             {tournamentConditions.subtitle}. Ten binding sections — read them in full before
@@ -71,9 +71,25 @@ export default function Conditions() {
         <p className="text-base mt-2">{tournamentConditions.subtitle}</p>
       </div>
 
+      {/* Read key points — older-reader summary */}
+      <section className="bg-white pt-10 sm:pt-14 no-print">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="key-points">
+            <span className="kp-label">THE ESSENTIAL RULES — SKIM BEFORE YOU TEE OFF</span>
+            <ul>
+              <li>Fully paid-up Royal Harare members with current HNA handicap only.</li>
+              <li>Medal Stableford at 75% Bard Santner handicap allowance. Men: White tees. Ladies: Red tees.</li>
+              <li>Maximum handicap index: 21.2 (Men) and 26.2 (Ladies). Age 25+ for travel prize.</li>
+              <li>Within 5 min late = 2-stroke penalty. Over 5 min late = disqualification (Rule 5.3a).</li>
+              <li>Play at least 7 of 11 events. Best 7 scores count toward the Order of Merit.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       {/* Accordion sections */}
       <section className="bg-white py-10 sm:py-14 print:py-0">
-        <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12 read-prose">
           <div className="border-t-2 border-navy-900">
             {tournamentConditions.sections.map((s, i) => (
               <SectionReveal key={s.number} delay={i * 40}>
@@ -90,7 +106,7 @@ export default function Conditions() {
                     <CaretDown size={24} weight="bold" className="text-navy-900 transition-transform group-open:rotate-180 shrink-0 mt-2 no-print" />
                   </summary>
                   <div className="mt-5 ml-0 sm:ml-[88px] pr-4 pb-2">
-                    <pre className="whitespace-pre-wrap font-body text-sm sm:text-base leading-relaxed text-steel-700">
+                    <pre className="whitespace-pre-wrap font-body text-base sm:text-[17px] leading-[1.65] text-steel-700">
 {s.body}
                     </pre>
                   </div>

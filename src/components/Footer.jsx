@@ -26,7 +26,9 @@ export default function Footer() {
       <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-14 sm:py-20">
         {/* Massive wordmark */}
         <div className="mb-12 pb-10 border-b border-navy-800">
-          <p className="label-xs text-orange-500 mb-4">ROAD TO S.A. 2025</p>
+          <p className="label-xs text-orange-500 mb-4">
+            <span className="animate-keyline">ROAD TO S.A. 2025</span>
+          </p>
           <h2 className="font-display text-6xl sm:text-8xl lg:text-[140px] uppercase leading-[0.85] tracking-tight">
             THE RACE<br />
             <span className="text-orange-500">IS ON.</span>
@@ -34,29 +36,47 @@ export default function Footer() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-          {/* Col 1 — brand */}
+          {/* Col 1 — brand (orange BS icon on navy, not full logo on white pill) */}
           <div>
-            <div className="bg-white p-3 inline-block mb-4">
+            <a
+              href={partnership.primary.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 mb-5 group"
+              aria-label="Visit Bard Santner Inc"
+            >
               <img
-                src="/logo.png"
+                src="/icon.png"
                 alt="Bard Santner"
-                className="h-8 w-auto"
+                className="h-12 w-12 object-contain group-hover:scale-105 transition-transform"
                 onError={(e) => (e.currentTarget.style.display = 'none')}
               />
-            </div>
-            <p className="text-sm text-steel-300 leading-relaxed mb-4">
+              <div>
+                <p className="font-display text-xl uppercase leading-none">Bard Santner</p>
+                <p className="label-xs text-orange-500 mt-1">INC.</p>
+              </div>
+            </a>
+            <p className="text-sm text-steel-300 leading-relaxed mb-5">
               {partnership.primary.description}
             </p>
-            <p className="label-xs text-orange-500 mb-3">IN PARTNERSHIP WITH</p>
-            <div className="bg-white p-2 inline-block">
-              <img
-                src="/logo-royal-harare.png"
-                alt="Royal Harare Golf Club"
-                className="h-14 w-auto"
-                onError={(e) => (e.currentTarget.style.display = 'none')}
-              />
-            </div>
-            <p className="text-xs text-steel-400 mt-2">EST. 1898</p>
+            <a
+              href={partnership.host.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex flex-col gap-2 group"
+              aria-label="Visit Royal Harare Golf Club"
+            >
+              <span className="label-xs text-orange-500">IN PARTNERSHIP WITH</span>
+              <span className="bg-white p-2 inline-block w-fit group-hover:scale-[1.02] transition-transform">
+                <img
+                  src="/logo-royal-harare.png"
+                  alt="Royal Harare Golf Club"
+                  className="h-12 w-auto"
+                  onError={(e) => (e.currentTarget.style.display = 'none')}
+                />
+              </span>
+              <span className="text-xs text-steel-400">EST. 1898</span>
+            </a>
           </div>
 
           {/* Col 2 — navigate */}

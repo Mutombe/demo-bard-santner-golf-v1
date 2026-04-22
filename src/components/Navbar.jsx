@@ -1,73 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { List, X, MagnifyingGlass, WhatsappLogo } from '@phosphor-icons/react';
-import { business, navLinks } from '../data/siteData';
+import { business, navLinks, calendar } from '../data/siteData';
+
+// Mini-ticker — breathing opacity showing next tee-off
+function MiniTicker() {
+  const next = calendar.find((r) => new Date(r.date + 'T07:00:00+02:00') > new Date()) || calendar[calendar.length - 1];
+  return (
+    <span className="hidden md:inline-flex items-center gap-2 animate-breathe">
+      <span className="h-1.5 w-1.5 bg-orange-500 rounded-full" />
+      <span className="label-xs text-steel-500 tracking-[0.2em]">NEXT · {next.dateLabel}</span>
+    </span>
+  );
+}
 
 export default function Navbar({ onOpenSearch }) {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const isHome = location.pathname === '/';
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   useEffect(() => {
     setOpen(false);
   }, [location.pathname]);
 
-  // Transparent over hero on home page when not scrolled; solid everywhere else
-  const transparent = isHome && !scrolled;
-
   return (
     <>
-      <header
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-          transparent
-            ? 'bg-transparent'
-            : 'bg-navy-950/95 backdrop-blur-md border-b border-navy-800'
-        }`}
-      >
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Brand lockup — Bard Santner wordmark + partner */}
-            <Link to="/" className="flex items-center gap-3 sm:gap-4 min-w-0">
-              <div className="bg-white px-2 py-1.5 sm:py-2 flex items-center">
-                <img
-                  src="/logo.png"
-                  alt="Bard Santner Inc"
-                  loading="eager"
-                  className="h-6 sm:h-7 w-auto"
-                  onError={(e) => (e.currentTarget.style.display = 'none')}
-                />
-              </div>
-              <div className="hidden md:flex items-center gap-3">
-                <span className="label-xs text-orange-400">IN PARTNERSHIP WITH</span>
-                <img
-                  src="/logo-royal-harare.png"
-                  alt="Royal Harare Golf Club"
-                  loading="eager"
-                  className="h-8 w-auto bg-white p-1"
-                  onError={(e) => (e.currentTarget.style.display = 'none')}
-                />
-              </div>
+      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-navy-100 shadow-[0_1px_0_rgba(46,42,79,0.04)]">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-10">
+          <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
+            {/* Brand lockup — full logo on white */}
+            <Link to="/" className="flex items-center gap-4 min-w-0 shrink-0" aria-label="Bard Santner Road to S.A. — Home">
+              <img
+                src="/logo.png"
+                alt="Bard Santner Inc"
+                loading="eager"
+                className="h-8 sm:h-10 w-auto"
+                onError={(e) => (e.currentTarget.style.display = 'none')}
+              />
+              <MiniTicker />
             </Link>
 
-            {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-1">
+            {/* Desktop nav — shortened labels, tight padding so no wrap */}
+            <nav className="hidden lg:flex items-center gap-0">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.to}
                   to={link.to}
+                  end={link.to === '/'}
                   className={({ isActive }) =>
-                    `px-3 xl:px-4 py-2 text-[11px] tracking-[0.22em] uppercase font-semibold transition ${
+                    `px-3 py-2 text-[11px] tracking-[0.2em] uppercase font-semibold transition whitespace-nowrap ${
                       isActive
-                        ? 'text-orange-400'
-                        : 'text-white/80 hover:text-orange-400'
+                        ? 'text-orange-600'
+                        : 'text-navy-800 hover:text-orange-600'
                     }`
                   }
                 >
@@ -76,11 +59,11 @@ export default function Navbar({ onOpenSearch }) {
               ))}
             </nav>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               <button
                 onClick={onOpenSearch}
                 aria-label="Open search"
-                className="hidden sm:flex h-10 w-10 items-center justify-center text-white hover:text-orange-400 transition"
+                className="hidden sm:flex h-10 w-10 items-center justify-center text-navy-800 hover:text-orange-600 transition"
               >
                 <MagnifyingGlass size={20} weight="bold" />
               </button>
@@ -88,21 +71,21 @@ export default function Navbar({ onOpenSearch }) {
                 href={business.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex items-center gap-2 px-3 py-2 text-[11px] tracking-[0.2em] uppercase font-bold text-white hover:text-orange-400 transition"
+                className="hidden xl:inline-flex items-center gap-2 px-3 py-2 text-[11px] tracking-[0.2em] uppercase font-bold text-navy-800 hover:text-orange-600 transition whitespace-nowrap"
               >
-                <WhatsappLogo size={18} weight="fill" />
+                <WhatsappLogo size={16} weight="fill" />
                 CALL
               </a>
               <Link
                 to="/register"
-                className="hidden md:inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-white px-4 lg:px-5 py-2.5 lg:py-3 text-[11px] tracking-[0.2em] uppercase font-bold transition"
+                className="hidden md:inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-white px-4 lg:px-5 py-2.5 lg:py-3 text-[11px] tracking-[0.2em] uppercase font-bold transition whitespace-nowrap"
               >
-                REGISTER →
+                BOOK SLOT →
               </Link>
 
               {/* Mobile menu */}
               <button
-                className="lg:hidden h-10 w-10 flex items-center justify-center text-white"
+                className="lg:hidden h-10 w-10 flex items-center justify-center text-navy-900"
                 onClick={() => setOpen(!open)}
                 aria-label="Menu"
               >
@@ -122,6 +105,7 @@ export default function Navbar({ onOpenSearch }) {
               <NavLink
                 key={link.to}
                 to={link.to}
+                end={link.to === '/'}
                 className={({ isActive }) =>
                   `block py-4 border-b border-navy-800 font-display text-3xl uppercase transition ${
                     isActive ? 'text-orange-500' : 'text-white hover:text-orange-400'
@@ -143,7 +127,7 @@ export default function Navbar({ onOpenSearch }) {
               to="/register"
               className="mt-4 inline-flex items-center justify-between bg-orange-500 text-white px-5 py-4 label-xs font-bold"
             >
-              REGISTER FOR NEXT ROUND
+              BOOK YOUR SLOT
               <span className="font-display text-2xl">→</span>
             </Link>
           </nav>

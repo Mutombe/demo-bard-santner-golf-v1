@@ -4,6 +4,7 @@ import { ArrowRight, MapPin, Flag, Target } from '@phosphor-icons/react';
 import PageTransition from '../components/PageTransition';
 import SectionReveal from '../components/SectionReveal';
 import StatCounter from '../components/StatCounter';
+import CountUp from '../components/CountUp';
 import SEO from '../components/SEO';
 import { courseFacts, gallery } from '../data/siteData';
 
@@ -21,11 +22,28 @@ export default function TheCourse() {
           <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-transparent" />
         </div>
         <div className="relative w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-14 sm:py-20">
-          <p className="label-xs text-orange-500 mb-4">02 / THE COURSE</p>
+          <p className="label-xs text-orange-500 mb-4"><span className="animate-keyline">02 / THE COURSE</span></p>
           <h1 className="font-display uppercase leading-[0.88]" style={{ fontSize: 'clamp(3rem, 10vw, 10rem)' }}>
             ROYAL<br /><span className="text-orange-500">HARARE.</span>
           </h1>
-          <p className="mt-4 label-xs text-orange-400">{courseFacts.est} · PAR {courseFacts.par} · {courseFacts.length}</p>
+          <p className="mt-4 label-xs text-orange-400">
+            ESTABLISHED <CountUp to={1898} from={1800} duration={2200} /> · PAR {courseFacts.par} · {courseFacts.length}
+          </p>
+        </div>
+      </section>
+
+      {/* Read key points */}
+      <section className="bg-white pt-10 sm:pt-14">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="key-points">
+            <span className="kp-label">THE COURSE AT A GLANCE</span>
+            <ul>
+              <li>Established 1898 — one of Africa's great championship layouts.</li>
+              <li>18 holes · Par 72 · 6,660 metres · course rating 73.1.</li>
+              <li>White tee markers for men · Red markers for ladies.</li>
+              <li>Dense indigenous hardwoods, sweeping fairways, immaculate greens.</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -35,7 +53,9 @@ export default function TheCourse() {
           <div className="grid grid-cols-12 gap-6 sm:gap-10 mb-14 sm:mb-20">
             <div className="col-span-12 lg:col-span-5">
               <SectionReveal>
-                <p className="label-xs text-orange-500 mb-4">EST. 1898</p>
+                <p className="label-xs text-orange-500 mb-4">
+                  EST. <CountUp to={1898} from={1800} duration={2200} />
+                </p>
                 <h2 className="font-display uppercase text-navy-900 leading-[0.9]" style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}>
                   A CENTURY<br />
                   <span className="text-orange-500">ON ONE SITE.</span>
@@ -44,10 +64,19 @@ export default function TheCourse() {
             </div>
             <div className="col-span-12 lg:col-span-7">
               <SectionReveal delay={100}>
-                <p className="text-steel-700 text-lg leading-relaxed">{courseFacts.description}</p>
+                <div className="read-prose rich-copy text-steel-700">
+                  <p>{courseFacts.description}</p>
+                </div>
                 <div className="mt-4 flex items-center gap-3 text-sm text-steel-600">
                   <MapPin size={18} weight="fill" className="text-orange-500" />
-                  <span>{courseFacts.location}</span>
+                  <a
+                    href="https://maps.google.com/?q=Royal+Harare+Golf+Club"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="prose-link"
+                  >
+                    {courseFacts.location}
+                  </a>
                 </div>
               </SectionReveal>
             </div>
@@ -108,17 +137,25 @@ export default function TheCourse() {
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
             {courseShots.map((g, i) => (
               <SectionReveal key={i} delay={i * 60} className="photo-hover">
-                <img src={g.src} alt={g.caption} loading="lazy" className={`w-full object-cover object-center ${i % 3 === 1 ? 'aspect-[3/4]' : 'aspect-[4/3]'}`} onError={(e) => (e.currentTarget.style.display = 'none')} />
+                {/* object-position right center crops out embedded top-left watermark */}
+                <img
+                  src={g.src}
+                  alt={g.caption}
+                  loading="lazy"
+                  className={`w-full object-cover ${i % 3 === 1 ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}
+                  style={{ objectPosition: 'right center' }}
+                  onError={(e) => (e.currentTarget.style.display = 'none')}
+                />
               </SectionReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — use unwatermarked caddie image; original flags-fairway has embedded logo */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/flags-fairway.jpg" alt="" loading="lazy" className="w-full h-full object-cover object-center" onError={(e) => (e.currentTarget.style.display = 'none')} />
+          <img src="/images/caddie-flags-fairway.jpg" alt="" loading="lazy" className="w-full h-full object-cover object-center" onError={(e) => (e.currentTarget.style.display = 'none')} />
           <div className="absolute inset-0 bg-navy-950/70" />
         </div>
         <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">

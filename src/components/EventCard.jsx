@@ -12,7 +12,7 @@ export default function EventCard({ round, isNext = false }) {
       transition={{ duration: 0.5 }}
       whileHover={{ y: -6 }}
       className={`relative group overflow-hidden ${
-        isNext ? 'bg-orange-500 text-white' : 'bg-navy-950 text-white'
+        isNext ? 'bg-orange-500 text-white animate-pulse-ring' : 'bg-navy-950 text-white'
       }`}
     >
       <div className="p-6 sm:p-8">
@@ -22,7 +22,7 @@ export default function EventCard({ round, isNext = false }) {
             <p className="label-xs opacity-70 mt-1">{isNext ? 'NEXT UP' : round.status === 'past' ? 'COMPLETED' : 'SCHEDULED'}</p>
           </div>
           {isNext && (
-            <span className="h-2.5 w-2.5 bg-white animate-pulse-dot" />
+            <span className="h-2.5 w-2.5 bg-white rounded-full animate-pulse-dot" />
           )}
         </div>
 

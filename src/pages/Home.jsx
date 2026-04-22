@@ -12,6 +12,8 @@ import Countdown from '../components/Countdown';
 import StatCounter from '../components/StatCounter';
 import TournamentRow from '../components/TournamentRow';
 import EventCard from '../components/EventCard';
+import CountUp from '../components/CountUp';
+import HeroCarousel from '../components/HeroCarousel';
 import SEO from '../components/SEO';
 import {
   business, calendar, eventStats, courseFacts, prizeLadder,
@@ -37,141 +39,127 @@ export default function Home() {
       />
 
       {/* ================================================================
-           HERO — kinetic scoreboard + countdown
+           HERO — single-viewport · left-drifting photo carousel · scoreboard
       ================================================================ */}
-      <section className="relative min-h-[calc(100svh-4rem)] bg-navy-950 text-white overflow-hidden pt-16 sm:pt-20">
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <img
-            src="/images/flags-fairway.jpg"
-            alt=""
-            loading="eager"
-            fetchPriority="high"
-            className="w-full h-full object-cover object-center opacity-50"
-            onError={(e) => (e.currentTarget.style.display = 'none')}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-navy-950/80 via-navy-950/60 to-navy-950/95" />
-          <div className="absolute inset-0 grid-lines opacity-40" />
-        </div>
+      <section
+        className="relative bg-navy-950 text-white overflow-hidden flex flex-col pt-16 sm:pt-20"
+        style={{ height: '100svh', minHeight: '640px' }}
+      >
+        {/* Background — infinite LEFT-drifting treadmill of action photos */}
+        <HeroCarousel speed={38} />
+        {/* Navy darken so headline reads cleanly over the moving photos */}
+        <div className="absolute inset-0 bg-navy-950/70" />
+        <div className="absolute inset-0 grid-lines opacity-20 pointer-events-none" />
 
         {/* Top status bar */}
-        <div className="relative border-b border-white/10">
-          <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-3 flex items-center justify-between text-[11px] tracking-[0.2em] uppercase font-mono">
-            <div className="flex items-center gap-3">
-              <span className="h-2 w-2 bg-orange-500 animate-pulse-dot" />
+        <div className="relative border-b border-white/10 shrink-0">
+          <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-2.5 flex items-center justify-between text-[10px] tracking-[0.2em] uppercase font-mono">
+            <div className="flex items-center gap-2.5">
+              <span className="h-2 w-2 bg-orange-500 rounded-full animate-pulse-dot" />
               <span className="text-orange-400">SEASON 2025 — LIVE</span>
             </div>
-            <div className="hidden sm:flex items-center gap-6 text-steel-300">
+            <div className="hidden sm:flex items-center gap-4 text-steel-300">
               <span>ROYAL HARARE · ZW</span>
               <span className="hidden md:inline">LAT -17.80 · LON 31.07</span>
-              <span>{new Date().toUTCString().slice(5, 16)}</span>
             </div>
           </div>
         </div>
 
-        {/* Hero body */}
-        <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 pt-10 sm:pt-16 pb-10 sm:pb-16">
-          <div className="grid grid-cols-12 gap-6 sm:gap-8">
-            {/* Left — title */}
-            <div className="col-span-12 lg:col-span-7">
-              <motion.p
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                className="label-xs text-orange-500 mb-4 sm:mb-6"
-              >
-                BARD SANTNER LOYALTY EVENT // EDITION 2025
-              </motion.p>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="font-display uppercase leading-[0.88] text-balance"
-                style={{ fontSize: 'clamp(3.2rem, 11vw, 10rem)' }}
-              >
-                ROAD
-                <br />
-                TO <span className="text-orange-500">S.A.</span>
-                <br />
-                GOLF<br />
-                <span className="inline-flex items-baseline">
-                  CHALLENGE
-                </span>
-              </motion.h1>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.35 }}
-                className="mt-8 sm:mt-10 flex flex-wrap items-center gap-4"
-              >
-                <Link
-                  to="/register"
-                  className="group inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-6 sm:px-8 py-4 sm:py-5 label-xs font-bold transition clip-arrow-right"
+        {/* Hero body — centered vertically, everything fits */}
+        <div className="relative flex-1 flex items-center">
+          <div className="w-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-4 sm:py-6">
+            <div className="grid grid-cols-12 gap-5 lg:gap-8 items-center">
+              {/* Left — title */}
+              <div className="col-span-12 lg:col-span-7">
+                <motion.p
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="label-xs text-orange-500 mb-3 sm:mb-4"
                 >
-                  BOOK YOUR TEE-TIME
-                  <ArrowRight size={18} weight="bold" className="group-hover:translate-x-1 transition" />
-                </Link>
-                <Link
-                  to="/calendar"
-                  className="inline-flex items-center gap-3 border-2 border-white text-white hover:border-orange-500 hover:text-orange-500 px-6 sm:px-8 py-4 sm:py-5 label-xs font-bold transition"
+                  <span className="animate-keyline">BARD SANTNER LOYALTY EVENT // EDITION 2025</span>
+                </motion.p>
+
+                <motion.h1
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  className="font-display uppercase leading-[0.86] text-balance"
+                  style={{ fontSize: 'clamp(2.6rem, 8.5vw, 8rem)' }}
                 >
-                  9-ROUND CALENDAR
-                </Link>
-              </motion.div>
+                  ROAD TO <span className="text-orange-500">S.A.</span>
+                  <br />
+                  GOLF CHALLENGE
+                </motion.h1>
 
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="mt-8 max-w-xl text-steel-200 text-base sm:text-lg leading-relaxed"
-              >
-                Nine qualifying rounds. Eleven months of stableford. One all-expenses-paid
-                seat to watch the <span className="text-white font-semibold">Nedbank Golf Challenge</span> at Sun City.
-                Play seven. Rank top. Fly south.
-              </motion.p>
-            </div>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.35 }}
+                  className="mt-4 sm:mt-5 max-w-xl text-steel-200 text-sm sm:text-base leading-relaxed"
+                >
+                  Nine qualifying rounds. Eleven months of stableford. One all-expenses-paid
+                  seat to the <span className="text-white font-semibold">Nedbank Golf Challenge</span> at Sun City.
+                </motion.p>
 
-            {/* Right — scoreboard panel */}
-            <div className="col-span-12 lg:col-span-5 mt-6 lg:mt-4">
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="bg-navy-900/70 backdrop-blur-md border-2 border-white/15 p-6 sm:p-8"
-              >
-                <Countdown />
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="mt-5 sm:mt-7 flex flex-wrap items-center gap-3"
+                >
+                  <Link
+                    to="/register"
+                    className="group inline-flex items-center gap-2.5 bg-orange-500 hover:bg-orange-400 text-white px-5 sm:px-7 py-3 sm:py-4 label-xs font-bold transition clip-arrow-right"
+                  >
+                    BOOK YOUR TEE-TIME
+                    <ArrowRight size={16} weight="bold" className="group-hover:translate-x-1 transition" />
+                  </Link>
+                  <Link
+                    to="/calendar"
+                    className="inline-flex items-center gap-2 border-2 border-white text-white hover:border-orange-500 hover:text-orange-500 px-5 sm:px-7 py-3 sm:py-4 label-xs font-bold transition"
+                  >
+                    9-ROUND CALENDAR
+                  </Link>
+                </motion.div>
+              </div>
 
-                <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-3 gap-4">
-                  <div>
-                    <div className="scoreboard-label text-orange-400">ROUND</div>
-                    <div className="scoreboard-num text-3xl sm:text-4xl mt-1">{String(calendar[nextIdx].round).padStart(2, '0')}</div>
+              {/* Right — compact scoreboard panel */}
+              <div className="col-span-12 lg:col-span-5 mt-2 lg:mt-0">
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="bg-navy-900/75 backdrop-blur-md border-2 border-white/15 p-4 sm:p-6"
+                >
+                  <Countdown compact />
+
+                  <div className="mt-5 pt-4 border-t border-white/10 grid grid-cols-3 gap-3">
+                    <div>
+                      <div className="scoreboard-label text-orange-400">ROUND</div>
+                      <div className="scoreboard-num text-2xl sm:text-3xl mt-0.5 tabular-nums">
+                        <CountUp to={calendar[nextIdx].round} pad={2} duration={1400} />
+                        <span className="text-steel-500 text-base"> / 09</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="scoreboard-label text-orange-400">PAR</div>
+                      <div className="scoreboard-num text-2xl sm:text-3xl mt-0.5">72</div>
+                    </div>
+                    <div>
+                      <div className="scoreboard-label text-orange-400">H.A.</div>
+                      <div className="scoreboard-num text-2xl sm:text-3xl mt-0.5">75<span className="text-sm">%</span></div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="scoreboard-label text-orange-400">PAR</div>
-                    <div className="scoreboard-num text-3xl sm:text-4xl mt-1">72</div>
-                  </div>
-                  <div>
-                    <div className="scoreboard-label text-orange-400">H.A.</div>
-                    <div className="scoreboard-num text-3xl sm:text-4xl mt-1">75<span className="text-lg">%</span></div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Partnership strip */}
-              <div className="mt-6 bg-white p-4 flex items-center justify-between gap-4">
-                <img src="/logo.png" alt="Bard Santner Inc" className="h-8 sm:h-10 w-auto" onError={(e) => (e.currentTarget.style.display = 'none')} />
-                <span className="label-xs text-steel-500 hidden sm:inline">×</span>
-                <img src="/logo-royal-harare.png" alt="Royal Harare Golf Club" className="h-12 sm:h-14 w-auto" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                </motion.div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Scroll hint */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 label-xs text-white/60 hidden sm:block">
-          ↓ SCROLL
+        {/* Bottom — scroll hint */}
+        <div className="relative shrink-0 pb-3 sm:pb-5 flex justify-center">
+          <span className="label-xs text-white/50 animate-breathe">↓ SCROLL</span>
         </div>
       </section>
 
@@ -210,7 +198,7 @@ export default function Home() {
           <SectionReveal>
             <div className="grid grid-cols-12 gap-6 sm:gap-8 items-end">
               <div className="col-span-12 lg:col-span-5">
-                <p className="label-xs text-orange-500 mb-4">01 / THE EVENT</p>
+                <p className="label-xs text-orange-500 mb-4"><span className="animate-keyline">01 / THE EVENT</span></p>
                 <h2 className="font-display uppercase text-navy-900 leading-[0.9] text-balance" style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>
                   THE BARD SANTNER<br />
                   <span className="text-orange-500">LOYALTY EVENT.</span>
@@ -230,9 +218,22 @@ export default function Home() {
 
           <SectionReveal delay={100}>
             <div className="mt-14 sm:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
-              {eventStats.map((s) => (
-                <StatCounter key={s.label} value={s.value} label={s.label} sub={s.sub} />
-              ))}
+              {eventStats.map((s, i) => {
+                const to = i === 0 ? '/calendar' : i === 1 ? '/register' : i === 2 ? '/conditions' : '/event';
+                return (
+                  <Link
+                    key={s.label}
+                    to={to}
+                    className="group block relative transition"
+                  >
+                    <StatCounter value={s.value} label={s.label} sub={s.sub} />
+                    <span className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition text-orange-500">
+                      <ArrowUpRight size={22} weight="bold" />
+                    </span>
+                    <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500 group-hover:w-full transition-all duration-500" />
+                  </Link>
+                );
+              })}
             </div>
           </SectionReveal>
         </div>
@@ -309,7 +310,9 @@ export default function Home() {
                 <h2 className="font-display uppercase text-navy-900 leading-[0.88] mb-6" style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>
                   ROYAL<br />HARARE.
                 </h2>
-                <p className="font-mono text-orange-500 label-xs mb-6">{courseFacts.est} · PAR {courseFacts.par} · {courseFacts.length}</p>
+                <p className="font-mono text-orange-500 label-xs mb-6">
+                  ESTABLISHED <CountUp to={1898} from={1800} duration={2000} /> · PAR {courseFacts.par} · {courseFacts.length}
+                </p>
                 <p className="text-steel-700 leading-relaxed mb-8">
                   {courseFacts.description}
                 </p>
@@ -321,18 +324,24 @@ export default function Home() {
                 </Link>
 
                 <div className="mt-10 grid grid-cols-3 gap-4 pt-8 border-t-2 border-navy-900">
-                  <div>
-                    <div className="scoreboard-num text-4xl text-navy-900 tabular-nums">{courseFacts.holes}</div>
-                    <div className="label-xs text-steel-500 mt-1">HOLES</div>
-                  </div>
-                  <div>
-                    <div className="scoreboard-num text-4xl text-navy-900 tabular-nums">{courseFacts.courseRating}</div>
-                    <div className="label-xs text-steel-500 mt-1">RATING</div>
-                  </div>
-                  <div>
-                    <div className="scoreboard-num text-4xl text-navy-900 tabular-nums">{courseFacts.slope}</div>
-                    <div className="label-xs text-steel-500 mt-1">SLOPE</div>
-                  </div>
+                  <Link to="/course" className="group block">
+                    <div className="scoreboard-num text-4xl text-navy-900 tabular-nums group-hover:text-orange-500 transition">
+                      <CountUp to={courseFacts.holes} />
+                    </div>
+                    <div className="label-xs text-steel-500 mt-1 group-hover:text-navy-900 transition">HOLES</div>
+                  </Link>
+                  <Link to="/course" className="group block">
+                    <div className="scoreboard-num text-4xl text-navy-900 tabular-nums group-hover:text-orange-500 transition">
+                      {courseFacts.courseRating}
+                    </div>
+                    <div className="label-xs text-steel-500 mt-1 group-hover:text-navy-900 transition">RATING</div>
+                  </Link>
+                  <Link to="/course" className="group block">
+                    <div className="scoreboard-num text-4xl text-navy-900 tabular-nums group-hover:text-orange-500 transition">
+                      <CountUp to={parseInt(courseFacts.slope, 10)} />
+                    </div>
+                    <div className="label-xs text-steel-500 mt-1 group-hover:text-navy-900 transition">SLOPE</div>
+                  </Link>
                 </div>
               </SectionReveal>
             </div>
@@ -361,7 +370,7 @@ export default function Home() {
                   <img src="/images/clubhouse.jpg" alt="Clubhouse" loading="lazy" className="w-full aspect-square object-cover object-center" onError={(e) => (e.currentTarget.style.display = 'none')} />
                 </SectionReveal>
                 <SectionReveal delay={200} className="photo-hover">
-                  <img src="/images/flag-sunset.jpg" alt="Flag at sunset" loading="lazy" className="w-full aspect-square object-cover object-center" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                  <img src="/images/flag-sunset.jpg" alt="Flag at sunset" loading="lazy" className="w-full aspect-square object-cover" style={{ objectPosition: 'right center' }} onError={(e) => (e.currentTarget.style.display = 'none')} />
                 </SectionReveal>
               </div>
             </div>
@@ -393,13 +402,14 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
             {prizeLadder.map((p, i) => (
               <SectionReveal key={p.title} delay={i * 100}>
-                <div
-                  className={`relative h-full p-6 sm:p-8 lg:p-10 border-2 ${
+                <Link
+                  to="/event"
+                  className={`group relative block h-full p-6 sm:p-8 lg:p-10 border-2 transition-all duration-300 hover:-translate-y-1 ${
                     p.accent === 'orange'
-                      ? 'bg-orange-500 text-white border-orange-500'
+                      ? 'bg-orange-500 text-white border-orange-500 hover:shadow-[6px_6px_0_0_#0B0A19]'
                       : p.accent === 'navy'
-                      ? 'bg-navy-900 text-white border-navy-900'
-                      : 'bg-white text-navy-900 border-navy-900'
+                      ? 'bg-navy-900 text-white border-navy-900 hover:shadow-[6px_6px_0_0_#E87722]'
+                      : 'bg-white text-navy-900 border-navy-900 hover:shadow-[6px_6px_0_0_#E87722]'
                   }`}
                 >
                   <p className="label-xs opacity-80 mb-2">{p.position}</p>
@@ -410,13 +420,17 @@ export default function Home() {
                   <p className="label-xs opacity-70 mb-6">{p.destination}</p>
                   <p className="text-sm opacity-90 leading-relaxed">{p.detail}</p>
 
+                  <span className="mt-6 inline-flex items-center gap-1 label-xs font-bold opacity-0 group-hover:opacity-100 transition">
+                    READ MORE <ArrowRight size={12} weight="bold" />
+                  </span>
+
                   {p.accent === 'orange' && (
                     <div className="absolute -top-4 right-4 bg-navy-950 text-orange-500 px-3 py-1 label-xs font-bold">
                       <Trophy size={14} weight="fill" className="inline mr-1" />
                       GRAND PRIZE
                     </div>
                   )}
-                </div>
+                </Link>
               </SectionReveal>
             ))}
           </div>
@@ -441,11 +455,17 @@ export default function Home() {
               <ul className="space-y-0">
                 {eligibility.bullets.map((b, i) => (
                   <SectionReveal key={i} delay={i * 60}>
-                    <li className="flex items-start gap-5 py-4 border-b-2 border-steel-100">
-                      <div className="scoreboard-num text-2xl sm:text-3xl text-orange-500 tabular-nums shrink-0 w-14">
-                        {String(i + 1).padStart(2, '0')}
-                      </div>
-                      <p className="text-base sm:text-lg text-navy-900 pt-1 leading-relaxed">{b}</p>
+                    <li>
+                      <Link
+                        to="/conditions"
+                        className="group flex items-start gap-5 py-4 border-b-2 border-steel-100 hover:bg-steel-50 transition -mx-2 px-2"
+                      >
+                        <div className="scoreboard-num text-2xl sm:text-3xl text-orange-500 tabular-nums shrink-0 w-14">
+                          {String(i + 1).padStart(2, '0')}
+                        </div>
+                        <p className="text-base sm:text-lg text-navy-900 pt-1 leading-relaxed flex-1 group-hover:text-orange-600 transition">{b}</p>
+                        <ArrowRight size={18} weight="bold" className="text-steel-300 group-hover:text-orange-500 group-hover:translate-x-1 transition shrink-0 mt-2" />
+                      </Link>
                     </li>
                   </SectionReveal>
                 ))}
@@ -481,7 +501,7 @@ export default function Home() {
                 to="/media"
                 className="hidden sm:inline-flex items-center gap-2 label-xs font-bold text-white hover:text-orange-500 border-b-2 border-white hover:border-orange-500 pb-1 transition"
               >
-                MEDIA CENTER <ArrowRight size={14} weight="bold" />
+                FULL GALLERY <ArrowRight size={14} weight="bold" />
               </Link>
             </div>
           </SectionReveal>
@@ -502,7 +522,8 @@ export default function Home() {
                   src={g.src}
                   alt={g.caption}
                   loading="lazy"
-                  className="w-full aspect-[4/5] object-cover object-center"
+                  className="w-full aspect-[4/5] object-cover"
+                  style={{ objectPosition: 'right center' }}
                   onError={(e) => (e.currentTarget.style.display = 'none')}
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-navy-950 to-transparent">

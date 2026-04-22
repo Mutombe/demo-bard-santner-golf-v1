@@ -52,16 +52,16 @@ export default function Media() {
 
   return (
     <PageTransition>
-      <SEO title="Media Center — Bard Santner Road to S.A. Golf Challenge" description="Course, clubhouse, players, and tournament imagery from the Bard Santner Loyalty Event seasons." />
+      <SEO title="Gallery — Bard Santner Road to S.A. Golf Challenge" description="Course, clubhouse, players, and tournament imagery from the Bard Santner Loyalty Event seasons." />
 
       {/* Hero */}
       <section className="relative bg-navy-950 text-white pt-24 sm:pt-32 pb-10 sm:pb-14 overflow-hidden">
         <div className="absolute inset-0 grid-lines opacity-40" />
         <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <p className="label-xs text-orange-500 mb-4">05 / MEDIA</p>
+          <p className="label-xs text-orange-500 mb-4"><span className="animate-keyline">05 / GALLERY</span></p>
           <h1 className="font-display uppercase leading-[0.88] text-balance" style={{ fontSize: 'clamp(2.5rem, 8vw, 8rem)' }}>
-            MEDIA<br />
-            <span className="text-orange-500">CENTER.</span>
+            THE<br />
+            <span className="text-orange-500">GALLERY.</span>
           </h1>
           <p className="mt-6 max-w-xl text-steel-300 text-lg">
             The face of the tournament. {gallery.length} images from the course, clubhouse, players,

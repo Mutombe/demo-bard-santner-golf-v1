@@ -1,11 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export default function StatCounter({ value, label, sub, duration = 1400, prefix = '', suffix = '' }) {
-  const [n, setN] = useState(0);
+export default function StatCounter({
+  value,
+  label,
+  sub,
+  duration = 1500,
+  prefix = '',
+  suffix = '',
+  from = null, // optional custom start (e.g. year: 1800 → 1898)
+  className = '',
+  numClassName = '',
+}) {
+  const [n, setN] = useState(from ?? 0);
   const ref = useRef(null);
   const started = useRef(false);
   const numericValue = parseInt(String(value).replace(/\D/g, ''), 10) || 0;
   const isNumeric = !isNaN(numericValue) && /\d/.test(String(value));
+  const start = from ?? 0;
 
   useEffect(() => {
     if (!isNumeric) return;
@@ -14,12 +25,13 @@ export default function StatCounter({ value, label, sub, duration = 1400, prefix
     const io = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && !started.current) {
         started.current = true;
-        const start = performance.now();
+        const t0 = performance.now();
         const animate = (now) => {
-          const elapsed = now - start;
+          const elapsed = now - t0;
           const progress = Math.min(elapsed / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3);
-          setN(Math.floor(eased * numericValue));
+          const v = Math.floor(start + eased * (numericValue - start));
+          setN(v);
           if (progress < 1) requestAnimationFrame(animate);
         };
         requestAnimationFrame(animate);
@@ -27,13 +39,15 @@ export default function StatCounter({ value, label, sub, duration = 1400, prefix
     }, { threshold: 0.4 });
     io.observe(node);
     return () => io.disconnect();
-  }, [numericValue, duration, isNumeric]);
+  }, [numericValue, duration, isNumeric, start]);
 
-  const displayValue = isNumeric ? `${prefix}${String(n).padStart(String(numericValue).length, '0')}${suffix}` : value;
+  const displayValue = isNumeric
+    ? `${prefix}${String(n).padStart(String(numericValue).length, '0')}${suffix}`
+    : value;
 
   return (
-    <div ref={ref} className="border-l-4 border-orange-500 pl-5 sm:pl-6">
-      <div className="scoreboard-num text-[clamp(3rem,8vw,5.5rem)] text-navy-900 tabular-nums">
+    <div ref={ref} className={`border-l-4 border-orange-500 pl-5 sm:pl-6 ${className}`}>
+      <div className={`scoreboard-num text-[clamp(3rem,8vw,5.5rem)] text-navy-900 tabular-nums ${numClassName}`}>
         {displayValue}
       </div>
       <div className="scoreboard-label text-navy-900 mt-2">{label}</div>

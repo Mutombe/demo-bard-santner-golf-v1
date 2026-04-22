@@ -20,7 +20,7 @@ export default function Contact() {
       <section className="relative bg-navy-950 text-white pt-24 sm:pt-32 pb-14 sm:pb-20 overflow-hidden">
         <div className="absolute inset-0 grid-lines opacity-40" />
         <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <p className="label-xs text-orange-500 mb-4">08 / CONTACT</p>
+          <p className="label-xs text-orange-500 mb-4"><span className="animate-keyline">08 / CONTACT</span></p>
           <h1 className="font-display uppercase leading-[0.88] text-balance" style={{ fontSize: 'clamp(2.5rem, 8vw, 8rem)' }}>
             TALK TO THE<br />
             <span className="text-orange-500">TOURNAMENT DESK.</span>
@@ -62,11 +62,11 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* WhatsApp mega CTA */}
+      {/* WhatsApp mega CTA — brand orange, not canonical green */}
       <section className="relative py-14 sm:py-20 bg-navy-950 text-white overflow-hidden">
         <div className="absolute inset-0 grid-lines opacity-30" />
         <div className="relative max-w-4xl mx-auto px-5 sm:px-8 lg:px-12 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 mb-6">
             <WhatsappLogo size={20} weight="fill" />
             <span className="label-xs font-bold">LIVE · FASTEST CHANNEL</span>
           </div>
@@ -81,8 +81,7 @@ export default function Contact() {
             href={business.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 text-white px-8 py-5 label-xs font-bold transition clip-arrow-right"
-            style={{ background: '#25D366' }}
+            className="inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-8 py-5 label-xs font-bold transition clip-arrow-right"
           >
             <WhatsappLogo size={20} weight="fill" />
             OPEN WHATSAPP

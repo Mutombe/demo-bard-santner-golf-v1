@@ -4,6 +4,7 @@ import { ArrowRight, Trophy, Target, Flag, Lightning, CaretDown } from '@phospho
 import PageTransition from '../components/PageTransition';
 import SectionReveal from '../components/SectionReveal';
 import StatCounter from '../components/StatCounter';
+import CountUp from '../components/CountUp';
 import SEO from '../components/SEO';
 import { business, eventStats, partnership, faq, eligibility } from '../data/siteData';
 
@@ -20,7 +21,7 @@ export default function TheEvent() {
           <div className="absolute inset-0 grid-lines opacity-30" />
         </div>
         <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <p className="label-xs text-orange-500 mb-4">01 / THE EVENT</p>
+          <p className="label-xs text-orange-500 mb-4"><span className="animate-keyline">01 / THE EVENT</span></p>
           <h1 className="font-display uppercase leading-[0.88] text-balance" style={{ fontSize: 'clamp(2.5rem, 8vw, 8rem)' }}>
             THE LOYALTY<br /><span className="text-orange-500">EVENT.</span>
           </h1>
@@ -31,13 +32,36 @@ export default function TheEvent() {
         </div>
       </section>
 
+      {/* Read key points — older-reader friendly summary */}
+      <section className="bg-white pt-10 sm:pt-14">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="key-points">
+            <span className="kp-label">READ KEY POINTS — 30-SECOND BRIEF</span>
+            <ul>
+              <li>Nine qualifying rounds across 2025 at Royal Harare Golf Club.</li>
+              <li>Medal Stableford at 75% Bard Santner handicap allowance.</li>
+              <li>Play at least seven of eleven events to qualify for the grand prize.</li>
+              <li>Grand prize: all-expenses-paid trip to the Nedbank Golf Challenge, Sun City.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       {/* Stats */}
       <section className="py-14 sm:py-20 bg-white">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
-            {eventStats.map((s) => (
-              <StatCounter key={s.label} {...s} />
-            ))}
+            {eventStats.map((s, i) => {
+              const to = i === 0 ? '/calendar' : i === 1 ? '/register' : i === 2 ? '/conditions' : '/event';
+              return (
+                <Link key={s.label} to={to} className="group block relative">
+                  <StatCounter {...s} />
+                  <span className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition text-orange-500">
+                    <ArrowRight size={20} weight="bold" />
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -54,22 +78,34 @@ export default function TheEvent() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { n: '01', h: 'ENTER', b: 'Register by 5:00pm Wednesday before each round. Royal Harare members with HNA handicaps.', icon: Flag },
-              { n: '02', h: 'PLAY', b: 'Medal Stableford at 75% Bard Santner handicap allowance. White tees (men), Red tees (women).', icon: Target },
-              { n: '03', h: 'ACCUMULATE', b: 'Your best 7 scores from 11 qualifying events stack on the Order of Merit.', icon: Lightning },
-              { n: '04', h: 'WIN', b: 'Leader on the Order of Merit (age 25+, 7+ rounds) wins the all-expenses-paid Sun City trip.', icon: Trophy },
+              { n: '01', h: 'ENTER', b: 'Register by 5:00pm Wednesday before each round. Royal Harare members with HNA handicaps.', icon: Flag, to: '/register' },
+              { n: '02', h: 'PLAY', b: 'Medal Stableford at 75% Bard Santner handicap allowance. White tees (men), Red tees (women).', icon: Target, to: '/conditions' },
+              { n: '03', h: 'ACCUMULATE', b: 'Your best 7 scores from 11 qualifying events stack on the Order of Merit.', icon: Lightning, to: '/calendar' },
+              { n: '04', h: 'WIN', b: 'Leader on the Order of Merit (age 25+, 7+ rounds) wins the all-expenses-paid Sun City trip.', icon: Trophy, to: '/event' },
             ].map((step, i) => {
               const Icon = step.icon;
               return (
                 <SectionReveal key={step.n} delay={i * 80}>
-                  <div className="bg-white border-2 border-navy-900 p-6 h-full">
+                  <Link
+                    to={step.to}
+                    className="group bg-white border-2 border-navy-900 p-6 h-full block transition-all duration-300 hover:-translate-y-1 hover:shadow-[6px_6px_0_0_#E87722]"
+                  >
                     <div className="flex items-start justify-between mb-6">
-                      <div className="scoreboard-num text-5xl text-orange-500 tabular-nums">{step.n}</div>
-                      <Icon size={28} weight="duotone" className="text-navy-900" />
+                      <div className="scoreboard-num text-5xl text-orange-500 tabular-nums">
+                        <CountUp to={Number(step.n)} pad={2} duration={1200} />
+                      </div>
+                      <Icon
+                        size={28}
+                        weight="duotone"
+                        className="text-navy-900 group-hover:text-orange-500 group-hover:rotate-12 transition-transform duration-300"
+                      />
                     </div>
-                    <h3 className="font-display text-2xl uppercase text-navy-900 mb-3">{step.h}</h3>
+                    <h3 className="font-display text-2xl uppercase text-navy-900 mb-3 group-hover:text-orange-600 transition">{step.h}</h3>
                     <p className="text-sm text-steel-700 leading-relaxed">{step.b}</p>
-                  </div>
+                    <div className="mt-4 label-xs text-orange-500 opacity-0 group-hover:opacity-100 transition flex items-center gap-1">
+                      LEARN MORE <ArrowRight size={12} weight="bold" />
+                    </div>
+                  </Link>
                 </SectionReveal>
               );
             })}
@@ -94,7 +130,7 @@ export default function TheEvent() {
                   <img src={partnership.primary.logo} alt="Bard Santner" className="h-10 w-auto" onError={(e) => (e.currentTarget.style.display = 'none')} />
                 </div>
                 <h3 className="font-display text-3xl uppercase mb-4">{partnership.primary.name}</h3>
-                <p className="text-steel-300 leading-relaxed mb-6">{partnership.primary.description}</p>
+                <p className="text-steel-300 leading-relaxed mb-6 text-base sm:text-lg">{partnership.primary.description}</p>
                 <a href={partnership.primary.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-orange-500 label-xs font-bold border-b-2 border-orange-500 pb-1 hover:gap-4 transition-all">
                   VISIT BARDSANTNER.COM <ArrowRight size={14} weight="bold" />
                 </a>
@@ -107,7 +143,7 @@ export default function TheEvent() {
                   <img src={partnership.host.logo} alt="Royal Harare Golf Club" className="h-14 w-auto" onError={(e) => (e.currentTarget.style.display = 'none')} />
                 </div>
                 <h3 className="font-display text-3xl uppercase text-navy-900 mb-4">{partnership.host.name}</h3>
-                <p className="text-steel-700 leading-relaxed mb-6">{partnership.host.description}</p>
+                <p className="text-steel-700 leading-relaxed mb-6 text-base sm:text-lg">{partnership.host.description}</p>
                 <Link to="/course" className="inline-flex items-center gap-2 text-navy-900 label-xs font-bold border-b-2 border-navy-900 pb-1 hover:gap-4 hover:text-orange-500 hover:border-orange-500 transition-all">
                   WALK THE COURSE <ArrowRight size={14} weight="bold" />
                 </Link>
@@ -174,10 +210,10 @@ export default function TheEvent() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — use unwatermarked caddie image */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/tee-off-jan2025.jpg" alt="" loading="lazy" className="w-full h-full object-cover object-center" onError={(e) => (e.currentTarget.style.display = 'none')} />
+          <img src="/images/caddie-flags-fairway.jpg" alt="" loading="lazy" className="w-full h-full object-cover object-center" onError={(e) => (e.currentTarget.style.display = 'none')} />
           <div className="absolute inset-0 bg-navy-950/70" />
         </div>
         <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">

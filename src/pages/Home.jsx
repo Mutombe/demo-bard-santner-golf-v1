@@ -19,6 +19,25 @@ import QualifyingDials from '../components/QualifyingDials';
 import GolfFlag from '../components/GolfFlag';
 import PartnershipMarquee from '../components/PartnershipMarquee';
 import SEO from '../components/SEO';
+import FrameRule from '../components/FrameRule';
+import { useTilt } from '../hooks/useTilt';
+import { haptic } from '../lib/haptics';
+
+// Tiltable wrapper for prize cards — subtle ±4° rotation tracking the cursor.
+function TiltWrap({ children, className = '' }) {
+  const t = useTilt(4);
+  return (
+    <div
+      ref={t.ref}
+      onMouseMove={t.onMouseMove}
+      onMouseLeave={t.onMouseLeave}
+      style={{ ...t.style, transition: 'transform 140ms ease-out', transformStyle: 'preserve-3d' }}
+      className={className}
+    >
+      {children}
+    </div>
+  );
+}
 import {
   business, calendar, eventStats, courseFacts, prizeLadder,
   gallery, eligibility
@@ -28,6 +47,18 @@ function nextRoundIndex() {
   const now = new Date();
   return calendar.findIndex((r) => new Date(r.date + 'T07:00:00+02:00') > now);
 }
+
+// Photos with embedded watermark — exclude from non-Gallery strips/grids.
+const WATERMARKED = new Set([
+  '/images/flags-fairway.jpg',
+  '/images/tee-off-jan2025.jpg',
+  '/images/flag-sunset.jpg',
+  '/images/player-swing-banner.jpg',
+  '/images/pro-swing.jpg',
+  '/images/players-lining-up-putt.jpg',
+  '/images/fairway-action-2.jpg',
+  '/images/registration-tent.jpg',
+]);
 
 export default function Home() {
   const nextIdx = useMemo(() => {
@@ -256,6 +287,8 @@ export default function Home() {
         </div>
       </section>
 
+      <FrameRule className="py-2" />
+
       {/* ================================================================
            QUALIFYING DIALS — radial gauges (the "surprise" moment)
       ================================================================ */}
@@ -419,7 +452,7 @@ export default function Home() {
                   <img src="/images/clubhouse.jpg" alt="Clubhouse" loading="lazy" className="w-full aspect-square object-cover object-center" onError={(e) => (e.currentTarget.style.display = 'none')} />
                 </SectionReveal>
                 <SectionReveal delay={200} className="photo-hover">
-                  <img src="/images/flag-sunset.jpg" alt="Flag at sunset" loading="lazy" className="w-full aspect-square object-cover" style={{ objectPosition: 'right center' }} onError={(e) => (e.currentTarget.style.display = 'none')} />
+                  <img src="/images/wide-action.jpg" alt="Wide fairway action" loading="lazy" className="w-full aspect-square object-cover" style={{ objectPosition: 'center center' }} onError={(e) => (e.currentTarget.style.display = 'none')} />
                 </SectionReveal>
               </div>
             </div>
@@ -466,9 +499,11 @@ export default function Home() {
                   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
                 }}
               >
+                <TiltWrap className="h-full">
                 <Link
                   to="/event"
-                  className={`group relative block h-full p-6 sm:p-8 lg:p-10 border-2 transition-all duration-300 hover:-translate-y-1 ${
+                  onClick={() => haptic()}
+                  className={`press-physics group relative block h-full p-6 sm:p-8 lg:p-10 border-2 transition-all duration-300 hover:-translate-y-1 ${
                     p.accent === 'orange'
                       ? 'bg-orange-500 text-white border-orange-500 hover:shadow-[6px_6px_0_0_#0B0A19]'
                       : p.accent === 'navy'
@@ -505,11 +540,14 @@ export default function Home() {
                     </div>
                   )}
                 </Link>
+                </TiltWrap>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
+
+      <FrameRule />
 
       {/* ================================================================
            SECTION 06 — ELIGIBILITY
@@ -591,7 +629,7 @@ export default function Home() {
 
         <div className="overflow-x-auto no-scrollbar">
           <div className="flex gap-4 sm:gap-6 px-5 sm:px-8 lg:px-12 pb-4">
-            {gallery.slice(0, 10).map((g, i) => (
+            {gallery.filter((g) => !WATERMARKED.has(g.src)).slice(0, 10).map((g, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}

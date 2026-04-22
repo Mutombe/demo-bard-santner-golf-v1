@@ -6,6 +6,7 @@ import SectionReveal from '../components/SectionReveal';
 import CountUp from '../components/CountUp';
 import SEO from '../components/SEO';
 import { tournamentConditions } from '../data/siteData';
+import { haptic } from '../lib/haptics';
 
 // Roman numeral converter (for 1–20)
 const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
@@ -209,7 +210,7 @@ export default function Conditions() {
               const n = parseInt(s.number, 10);
               return (
                 <SectionReveal key={s.number} delay={i * 40}>
-                  <details id={anchorId} className="tc-section group border-b-2 border-steel-200 py-4 sm:py-5 print:!open">
+                  <details id={anchorId} onToggle={() => haptic.toggle()} className="tc-section group border-b-2 border-steel-200 py-4 sm:py-5 print:!open">
                     <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
                       <div className="flex items-start gap-4 sm:gap-6 flex-1">
                         <SectionIcon n={s.number} className="shrink-0 mt-1" />

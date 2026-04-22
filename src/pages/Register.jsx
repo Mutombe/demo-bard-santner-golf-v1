@@ -13,6 +13,7 @@ import FairwayProgress from '../components/FairwayProgress';
 import CountUp from '../components/CountUp';
 import SEO from '../components/SEO';
 import { calendar, teeTimeSlots, business } from '../data/siteData';
+import { haptic } from '../lib/haptics';
 
 // ============ State =============
 const initial = {
@@ -81,6 +82,7 @@ export default function Register() {
       toast.error('Please complete all fields before moving on.');
       return;
     }
+    haptic.advance();
     toast.success(`Step ${step + 1} locked. Moving to ${steps[step + 1]?.label || 'REVIEW'}.`);
     dispatch({ type: 'NEXT' });
   };
@@ -92,6 +94,7 @@ export default function Register() {
   };
 
   const handleSubmit = () => {
+    haptic.confirm();
     const message = buildMessage();
     const waUrl = `https://wa.me/${business.phoneDigits}?text=${encodeURIComponent(message)}`;
     try {

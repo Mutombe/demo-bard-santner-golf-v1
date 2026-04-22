@@ -9,6 +9,7 @@ import CountUp from '../components/CountUp';
 import GolfFlag from '../components/GolfFlag';
 import SEO from '../components/SEO';
 import { business, eventStats, partnership, faq, eligibility } from '../data/siteData';
+import { haptic } from '../lib/haptics';
 
 export default function TheEvent() {
   const [hoveredFlag, setHoveredFlag] = useState(null);
@@ -311,7 +312,7 @@ export default function TheEvent() {
 
           <div className="border-t-2 border-navy-900">
             {faq.map((item, i) => (
-              <details key={i} className="group border-b-2 border-steel-200 py-4 sm:py-5">
+              <details key={i} onToggle={() => haptic.toggle()} className="group border-b-2 border-steel-200 py-4 sm:py-5">
                 <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
                   <span className="font-display text-xl sm:text-2xl uppercase text-navy-900 flex-1">
                     <span className="text-orange-500 font-mono text-sm mr-3">{String(i + 1).padStart(2, '0')}</span>

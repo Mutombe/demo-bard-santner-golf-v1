@@ -2,15 +2,25 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from '@phosphor-icons/react';
+import { useTilt } from '../hooks/useTilt';
+import { haptic } from '../lib/haptics';
 
 export default function EventCard({ round, isNext = false }) {
+  const tilt = useTilt(4);
   return (
     <motion.div
+      ref={tilt.ref}
+      onMouseMove={tilt.onMouseMove}
+      onMouseLeave={tilt.onMouseLeave}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5 }}
-      whileHover={{ y: -6 }}
+      style={{
+        ...tilt.style,
+        transition: 'transform 140ms ease-out',
+        transformStyle: 'preserve-3d',
+      }}
       className={`relative group overflow-hidden ${
         isNext ? 'bg-orange-500 text-white animate-pulse-ring' : 'bg-navy-950 text-white'
       }`}
@@ -39,7 +49,8 @@ export default function EventCard({ round, isNext = false }) {
         {round.status !== 'past' && (
           <Link
             to="/register"
-            className={`inline-flex items-center gap-2 label-xs font-bold border-b-2 pb-1 ${
+            onClick={() => haptic()}
+            className={`press-physics inline-flex items-center gap-2 label-xs font-bold border-b-2 pb-1 ${
               isNext ? 'border-white hover:gap-4' : 'border-orange-500 hover:gap-4 hover:text-orange-400'
             } transition-all duration-300`}
           >

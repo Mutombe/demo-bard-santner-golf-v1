@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { List, X, MagnifyingGlass, WhatsappLogo } from '@phosphor-icons/react';
 import { business, navLinks, calendar } from '../data/siteData';
+import { haptic } from '../lib/haptics';
 
 // Mini-ticker — breathing opacity showing next tee-off
 function MiniTicker() {
@@ -46,8 +47,9 @@ export default function Navbar({ onOpenSearch }) {
                   key={link.to}
                   to={link.to}
                   end={link.to === '/'}
+                  onClick={() => haptic()}
                   className={({ isActive }) =>
-                    `px-3 py-2 text-[11px] tracking-[0.2em] uppercase font-semibold transition whitespace-nowrap ${
+                    `press-physics px-3 py-2 text-[11px] tracking-[0.2em] uppercase font-semibold transition whitespace-nowrap ${
                       isActive
                         ? 'text-orange-600'
                         : 'text-navy-800 hover:text-orange-600'
@@ -78,7 +80,8 @@ export default function Navbar({ onOpenSearch }) {
               </a>
               <Link
                 to="/register"
-                className="hidden md:inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-white px-4 lg:px-5 py-2.5 lg:py-3 text-[11px] tracking-[0.2em] uppercase font-bold transition whitespace-nowrap"
+                onClick={() => haptic.advance()}
+                className="press-physics hidden md:inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-white px-4 lg:px-5 py-2.5 lg:py-3 text-[11px] tracking-[0.2em] uppercase font-bold transition whitespace-nowrap"
               >
                 BOOK SLOT →
               </Link>
@@ -106,8 +109,9 @@ export default function Navbar({ onOpenSearch }) {
                 key={link.to}
                 to={link.to}
                 end={link.to === '/'}
+                onClick={() => haptic()}
                 className={({ isActive }) =>
-                  `block py-4 border-b border-navy-800 font-display text-3xl uppercase transition ${
+                  `press-physics block py-4 border-b border-navy-800 font-display text-3xl uppercase transition ${
                     isActive ? 'text-orange-500' : 'text-white hover:text-orange-400'
                   }`
                 }
@@ -118,14 +122,15 @@ export default function Navbar({ onOpenSearch }) {
               </NavLink>
             ))}
             <button
-              onClick={onOpenSearch}
-              className="mt-6 flex items-center gap-3 py-3 text-white label-xs hover:text-orange-400"
+              onClick={() => { haptic(); onOpenSearch(); }}
+              className="press-physics mt-6 flex items-center gap-3 py-3 text-white label-xs hover:text-orange-400"
             >
               <MagnifyingGlass size={18} weight="bold" /> Search
             </button>
             <Link
               to="/register"
-              className="mt-4 inline-flex items-center justify-between bg-orange-500 text-white px-5 py-4 label-xs font-bold"
+              onClick={() => haptic.advance()}
+              className="press-physics mt-4 inline-flex items-center justify-between bg-orange-500 text-white px-5 py-4 label-xs font-bold"
             >
               BOOK YOUR SLOT
               <span className="font-display text-2xl">→</span>

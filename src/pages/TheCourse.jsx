@@ -11,7 +11,20 @@ import SEO from '../components/SEO';
 import { courseFacts, gallery } from '../data/siteData';
 
 export default function TheCourse() {
-  const courseShots = gallery.filter((g) => g.category === 'Course').slice(0, 6);
+  // Exclude watermarked photos from the course grid (Gallery page keeps them).
+  const WATERMARKED = new Set([
+    '/images/flags-fairway.jpg',
+    '/images/tee-off-jan2025.jpg',
+    '/images/flag-sunset.jpg',
+    '/images/player-swing-banner.jpg',
+    '/images/pro-swing.jpg',
+    '/images/players-lining-up-putt.jpg',
+    '/images/fairway-action-2.jpg',
+    '/images/registration-tent.jpg',
+  ]);
+  const courseShots = gallery
+    .filter((g) => g.category === 'Course' && !WATERMARKED.has(g.src))
+    .slice(0, 6);
 
   return (
     <PageTransition>

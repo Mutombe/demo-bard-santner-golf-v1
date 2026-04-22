@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
+import { haptic } from '../lib/haptics';
 
 /**
  * HeroCarousel — proper single-photo-at-a-time hero.
@@ -103,16 +104,16 @@ export default function HeroCarousel({ images = DEFAULT_IMAGES }) {
       <button
         type="button"
         aria-label="Previous slide"
-        onClick={() => handleManual(() => advance(-1))}
-        className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 items-center justify-center border-2 border-orange-500/70 text-orange-500 hover:bg-orange-500 hover:text-white transition backdrop-blur-sm bg-navy-950/30"
+        onClick={() => { haptic(); handleManual(() => advance(-1)); }}
+        className="press-physics hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 items-center justify-center border-2 border-orange-500/70 text-orange-500 hover:bg-orange-500 hover:text-white transition backdrop-blur-sm bg-navy-950/30"
       >
         <CaretLeft size={22} weight="bold" />
       </button>
       <button
         type="button"
         aria-label="Next slide"
-        onClick={() => handleManual(() => advance(1))}
-        className="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 items-center justify-center border-2 border-orange-500/70 text-orange-500 hover:bg-orange-500 hover:text-white transition backdrop-blur-sm bg-navy-950/30"
+        onClick={() => { haptic(); handleManual(() => advance(1)); }}
+        className="press-physics hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 items-center justify-center border-2 border-orange-500/70 text-orange-500 hover:bg-orange-500 hover:text-white transition backdrop-blur-sm bg-navy-950/30"
       >
         <CaretRight size={22} weight="bold" />
       </button>

@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+@theme {
+  /* Bard Santner navy (extracted from logo) */
+  --color-navy-50: #EEF0F7;
+  --color-navy-100: #D6D9E8;
+  --color-navy-200: #A4AAC6;
+  --color-navy-300: #6D76A0;
+  --color-navy-400: #434C7A;
+  --color-navy-500: #2E2A4F;
+  --color-navy-600: #252144;
+  --color-navy-700: #1C1935;
+  --color-navy-800: #141226;
+  --color-navy-900: #0B0A19;
+  --color-navy-950: #06050F;
+
+  /* Bard Santner vivid orange (extracted from logo) */
+  --color-orange-50: #FFF4EC;
+  --color-orange-100: #FEE3CF;
+  --color-orange-200: #FDC597;
+  --color-orange-300: #FBA35A;
+  --color-orange-400: #F38730;
+  --color-orange-500: #E87722;
+  --color-orange-600: #C65C14;
+  --color-orange-700: #9B440E;
+  --color-orange-800: #6F2F08;
+  --color-orange-900: #411A03;
+
+  /* Cool steel grey */
+  --color-steel-50: #F5F6F8;
+  --color-steel-100: #E7E9EE;
+  --color-steel-200: #C9CDD6;
+  --color-steel-300: #9EA4B3;
+  --color-steel-400: #6E7586;
+  --color-steel-500: #4B5261;
+  --color-steel-600: #353A48;
+  --color-steel-700: #252836;
+  --color-steel-800: #171927;
+  --color-steel-900: #0A0B15;
+
+  /* Typography — display condensed + body clean sans */
+  --font-display: 'Anton', 'Archivo Black', 'Impact', system-ui, sans-serif;
+  --font-display-alt: 'Archivo Black', 'Anton', 'Impact', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-navy-900);
+  background: #ffffff;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-orange-500);
+  color: white;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0B0A19; }
+::-webkit-scrollbar-thumb { background: var(--color-orange-500); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-orange-400); }
+
+.font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
+.font-display-alt { font-family: var(--font-display-alt); letter-spacing: -0.015em; }
+.font-body { font-family: var(--font-body); }
+.font-mono { font-family: var(--font-mono); }
+
+.text-balance { text-wrap: balance; }
+.text-pretty { text-wrap: pretty; }
+
+/* Scoreboard numerals — massive, tight, all caps */
+.scoreboard-num {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  line-height: 0.85;
+}
+
+.scoreboard-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Thick uppercase rule divider */
+.rule-thick {
+  border-top: 3px solid currentColor;
+}
+.rule-orange {
+  border-top: 3px solid var(--color-orange-500);
+}
+
+/* Diagonal slash accent clip */
+.diagonal-clip {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 32px), calc(100% - 32px) 100%, 0 100%);
+}
+.diagonal-clip-reverse {
+  clip-path: polygon(32px 0, 100% 0, 100% 100%, 0 100%, 0 32px);
+}
+
+/* Kinetic ticker strip */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-ticker { animation: ticker 40s linear infinite; }
+.animate-ticker-fast { animation: ticker 22s linear infinite; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+.animate-pulse-dot { animation: pulse-dot 1.6s ease-in-out infinite; }
+
+@keyframes slide-in-left {
+  from { transform: translateX(-40px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slide-in-right {
+  from { transform: translateX(40px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in-left { animation: slide-in-left 0.6s ease-out both; }
+.animate-slide-in-right { animation: slide-in-right 0.6s ease-out both; }
+
+/* Uppercase label class */
+.label-xs {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Print-friendly T&Cs */
+@media print {
+  nav, footer, .no-print { display: none !important; }
+  body { color: #000 !important; background: #fff !important; }
+  details { break-inside: avoid; }
+  details summary::-webkit-details-marker,
+  details summary::marker { display: none; }
+  details[open] summary ~ * { display: block !important; }
+  details summary { font-weight: 700; font-size: 14pt; }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-orange-500);
+  outline-offset: 2px;
+}
+
+/* Motion-blur on hover for editorial photography */
+.photo-hover {
+  overflow: hidden;
+}
+.photo-hover img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+}
+.photo-hover:hover img {
+  transform: scale(1.06);
+  filter: contrast(1.05) saturate(1.1);
+}
+
+/* Big bold underline interaction */
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: var(--color-orange-500);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover::after { transform: scaleX(1); }
+
+/* Grid line overlay (F1-scoreboard feel) */
+.grid-lines {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* Diagonal stripe arrows */
+.arrow-stripe {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-orange-500) 0,
+    var(--color-orange-500) 8px,
+    var(--color-navy-900) 8px,
+    var(--color-navy-900) 16px
+  );
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .clip-arrow-right { clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); }
+}
+
+@layer base {
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    line-height: 0.95;
+  }
+  input, textarea, select { font-size: 16px; }
+}

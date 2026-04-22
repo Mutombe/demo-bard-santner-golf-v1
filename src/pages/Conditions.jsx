@@ -145,26 +145,26 @@ export default function Conditions() {
             apply throughout.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
+          <div className="mt-10 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
             <a
               href={tournamentConditions.pdfUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="animate-paper-flip inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-6 sm:px-8 py-4 sm:py-5 label-xs font-bold transition clip-arrow-right"
+              className="animate-paper-flip inline-flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-6 sm:px-8 py-4 sm:py-5 min-h-[48px] label-xs font-bold transition clip-arrow-right"
             >
               <DownloadSimple size={18} weight="bold" />
               DOWNLOAD OFFICIAL PDF
             </a>
             <button
               onClick={handleExpandAll}
-              className="inline-flex items-center gap-2 border-2 border-white hover:border-orange-500 text-white hover:text-orange-500 px-6 py-4 sm:py-5 label-xs font-bold transition"
+              className="inline-flex items-center justify-center gap-2 border-2 border-white hover:border-orange-500 text-white hover:text-orange-500 px-6 py-4 sm:py-5 min-h-[48px] label-xs font-bold transition"
             >
               {openAll ? <CaretDoubleUp size={16} weight="bold" /> : <CaretDoubleDown size={16} weight="bold" />}
               {openAll ? 'COLLAPSE ALL' : 'EXPAND ALL'}
             </button>
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-2 border-2 border-white hover:border-orange-500 text-white hover:text-orange-500 px-6 py-4 sm:py-5 label-xs font-bold transition"
+              className="inline-flex items-center justify-center gap-2 border-2 border-white hover:border-orange-500 text-white hover:text-orange-500 px-6 py-4 sm:py-5 min-h-[48px] label-xs font-bold transition"
             >
               <Printer size={16} weight="bold" />
               PRINT
@@ -210,23 +210,23 @@ export default function Conditions() {
               const n = parseInt(s.number, 10);
               return (
                 <SectionReveal key={s.number} delay={i * 40}>
-                  <details id={anchorId} onToggle={() => haptic.toggle()} className="tc-section group border-b-2 border-steel-200 py-4 sm:py-5 print:!open">
+                  <details id={anchorId} onToggle={() => haptic.toggle()} className="tc-section group border-b-2 border-steel-200 py-5 sm:py-6 print:!open">
                     <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
                       <div className="flex items-start gap-4 sm:gap-6 flex-1">
                         <SectionIcon n={s.number} className="shrink-0 mt-1" />
                         <div className="flex-1">
-                          <p className="label-xs text-orange-500 mb-1">
+                          <p className="label-xs text-orange-500 mb-2">
                             {ROMAN[n] || s.number} · SECTION {s.number}
                           </p>
-                          <h2 className="font-display text-2xl sm:text-3xl uppercase text-navy-900 leading-tight">
+                          <h2 className="font-display text-xl sm:text-3xl uppercase text-navy-900 leading-[1.15]">
                             {s.heading}
                           </h2>
                         </div>
                       </div>
                       <CaretDown size={24} weight="bold" className="text-navy-900 transition-transform group-open:rotate-180 shrink-0 mt-2 no-print" />
                     </summary>
-                    <div className="mt-5 ml-0 sm:ml-[60px] pr-4 pb-2">
-                      <pre className="whitespace-pre-wrap font-body text-base sm:text-[17px] leading-[1.65] text-steel-700">
+                    <div className="mt-5 sm:mt-6 ml-0 sm:ml-[60px] pr-0 sm:pr-4 pb-2">
+                      <pre className="whitespace-pre-wrap font-body text-base sm:text-[17px] leading-[1.7] text-steel-700">
 {s.body}
                       </pre>
                     </div>

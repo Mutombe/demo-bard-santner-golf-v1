@@ -16,7 +16,7 @@ function MasonryColumn({ col, colIdx, onOpen, scrollY }) {
   const y = useTransform(scrollY, [0, 2000], [0, rate]);
 
   return (
-    <motion.div style={{ y }} className="flex flex-col gap-3 sm:gap-5">
+    <motion.div style={{ y }} className="flex flex-col gap-2.5 sm:gap-5">
       {col.map((g) => (
         <motion.button
           key={g.idx}
@@ -122,14 +122,14 @@ export default function Media() {
 
       {/* Filter bar */}
       <section className="sticky top-16 sm:top-20 z-30 bg-white border-b-2 border-navy-900">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-4 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             {FILTERS.map((f) => (
               <motion.button
                 key={f}
                 onClick={() => setFilter(f)}
                 whileTap={{ scale: 0.94 }}
-                className={`px-3 sm:px-4 py-2 label-xs font-bold border-2 transition inline-flex items-center gap-2 ${
+                className={`px-3.5 sm:px-4 py-2.5 sm:py-2 label-xs font-bold border-2 transition inline-flex items-center gap-2 ${
                   filter === f
                     ? 'bg-navy-900 border-navy-900 text-white'
                     : 'bg-white border-steel-300 text-navy-900 hover:border-navy-900'
@@ -166,7 +166,7 @@ export default function Media() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-5">
               {masonry.map((col, ci) => (
                 <MasonryColumn key={ci} col={col} colIdx={ci} onOpen={setLightboxIdx} scrollY={scrollY} />
               ))}

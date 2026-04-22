@@ -63,7 +63,7 @@ export default function TheEvent() {
       {/* Stats */}
       <section className="py-14 sm:py-20 bg-white">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
             {eventStats.map((s, i) => {
               const to = i === 0 ? '/calendar' : i === 1 ? '/register' : i === 2 ? '/conditions' : '/event';
               return (
@@ -94,7 +94,7 @@ export default function TheEvent() {
             </p>
           </SectionReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6">
             {qualifyingSteps.map((step, i) => {
               const Icon = step.icon;
               const planted = hoveredFlag === i;
@@ -106,17 +106,17 @@ export default function TheEvent() {
                     onMouseLeave={() => setHoveredFlag(null)}
                     onFocus={() => setHoveredFlag(i)}
                     onBlur={() => setHoveredFlag(null)}
-                    className="group bg-white border-2 border-navy-900 p-6 h-full block transition-all duration-300 hover:-translate-y-1 hover:shadow-[6px_6px_0_0_#E87722] relative"
+                    className="group bg-white border-2 border-navy-900 p-6 sm:p-7 h-full block transition-all duration-300 hover:-translate-y-1 hover:shadow-[6px_6px_0_0_#E87722] relative"
                   >
                     <div className="flex items-start justify-between mb-6">
-                      <div className="scoreboard-num text-5xl text-orange-500 tabular-nums">
+                      <div className="scoreboard-num text-5xl text-orange-500 tabular-nums leading-none">
                         <CountUp to={Number(step.n)} pad={2} duration={1200} />
                       </div>
                       <GolfFlag planted={planted} size={50} flutter={planted} />
                     </div>
-                    <h3 className="font-display text-2xl uppercase text-navy-900 mb-3 group-hover:text-orange-600 transition">{step.h}</h3>
-                    <p className="text-sm text-steel-700 leading-relaxed">{step.b}</p>
-                    <div className="mt-4 flex items-center gap-2 text-sm">
+                    <h3 className="font-display text-2xl uppercase text-navy-900 mb-4 leading-[1.1] group-hover:text-orange-600 transition">{step.h}</h3>
+                    <p className="text-sm text-steel-700 leading-[1.6]">{step.b}</p>
+                    <div className="mt-5 flex items-center gap-2 text-sm">
                       <Icon size={16} weight="duotone" className="text-orange-500" />
                       <span className="label-xs text-orange-500 group-hover:underline underline-offset-4">
                         {step.link}
@@ -147,7 +147,7 @@ export default function TheEvent() {
             </p>
           </SectionReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-6">
             {/* SA Open */}
             <motion.div
               id="sa-open"
@@ -226,9 +226,9 @@ export default function TheEvent() {
             </p>
           </SectionReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
             <SectionReveal>
-              <div className="bg-navy-950 text-white p-8 lg:p-12 h-full">
+              <div className="bg-navy-950 text-white p-7 sm:p-8 lg:p-12 h-full">
                 <div className="bg-white inline-block p-3 mb-6">
                   <img src={partnership.primary.logo} alt="Bard Santner" className="h-10 w-auto" onError={(e) => (e.currentTarget.style.display = 'none')} />
                 </div>
@@ -244,7 +244,7 @@ export default function TheEvent() {
             </SectionReveal>
 
             <SectionReveal delay={100}>
-              <div className="bg-steel-50 p-8 lg:p-12 h-full border-2 border-navy-900">
+              <div className="bg-steel-50 p-7 sm:p-8 lg:p-12 h-full border-2 border-navy-900">
                 <div className="bg-white inline-block p-3 mb-6">
                   <img src={partnership.host.logo} alt="Royal Harare Golf Club" className="h-14 w-auto" onError={(e) => (e.currentTarget.style.display = 'none')} />
                 </div>
@@ -283,11 +283,11 @@ export default function TheEvent() {
               <ul className="space-y-0">
                 {eligibility.bullets.map((b, i) => (
                   <SectionReveal key={i} delay={i * 60}>
-                    <li className="flex items-start gap-5 py-4 border-b-2 border-navy-800">
-                      <div className="scoreboard-num text-2xl sm:text-3xl text-orange-500 tabular-nums shrink-0 w-14">
+                    <li className="flex items-start gap-4 sm:gap-5 py-5 sm:py-5 border-b-2 border-navy-800">
+                      <div className="scoreboard-num text-2xl sm:text-3xl text-orange-500 tabular-nums shrink-0 w-12 sm:w-14 leading-none">
                         <CountUp to={i + 1} pad={2} duration={1000} />
                       </div>
-                      <p className="text-base sm:text-lg text-white pt-1 leading-relaxed">{b}</p>
+                      <p className="text-base sm:text-lg text-white pt-1 leading-[1.6]">{b}</p>
                     </li>
                   </SectionReveal>
                 ))}
@@ -312,15 +312,15 @@ export default function TheEvent() {
 
           <div className="border-t-2 border-navy-900">
             {faq.map((item, i) => (
-              <details key={i} onToggle={() => haptic.toggle()} className="group border-b-2 border-steel-200 py-4 sm:py-5">
+              <details key={i} onToggle={() => haptic.toggle()} className="group border-b-2 border-steel-200 py-5 sm:py-6">
                 <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
-                  <span className="font-display text-xl sm:text-2xl uppercase text-navy-900 flex-1">
+                  <span className="font-display text-lg sm:text-2xl uppercase text-navy-900 flex-1 leading-[1.2]">
                     <span className="text-orange-500 font-mono text-sm mr-3">{String(i + 1).padStart(2, '0')}</span>
                     {item.q}
                   </span>
                   <CaretDown size={22} weight="bold" className="text-navy-900 transition-transform group-open:rotate-180 shrink-0 mt-1" />
                 </summary>
-                <p className="mt-4 ml-10 text-steel-700 leading-relaxed text-sm sm:text-base rich-copy">{item.a}</p>
+                <p className="mt-5 ml-0 sm:ml-10 text-steel-700 leading-[1.6] text-sm sm:text-base rich-copy">{item.a}</p>
               </details>
             ))}
           </div>

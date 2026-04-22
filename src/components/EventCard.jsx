@@ -25,26 +25,26 @@ export default function EventCard({ round, isNext = false }) {
         isNext ? 'bg-orange-500 text-white animate-pulse-ring' : 'bg-navy-950 text-white'
       }`}
     >
-      <div className="p-6 sm:p-8">
+      <div className="p-7 sm:p-8">
         <div className="flex items-start justify-between gap-4 mb-6">
           <div>
             <p className="label-xs opacity-70">ROUND {String(round.round).padStart(2, '0')} / 09</p>
-            <p className="label-xs opacity-70 mt-1">{isNext ? 'NEXT UP' : round.status === 'past' ? 'COMPLETED' : 'SCHEDULED'}</p>
+            <p className="label-xs opacity-70 mt-1.5">{isNext ? 'NEXT UP' : round.status === 'past' ? 'COMPLETED' : 'SCHEDULED'}</p>
           </div>
           {isNext && (
             <span className="h-2.5 w-2.5 bg-white rounded-full animate-pulse-dot" />
           )}
         </div>
 
-        <div className="mb-4">
-          <div className="scoreboard-num text-[clamp(5rem,14vw,9rem)] leading-none tabular-nums">
+        <div className="mb-6">
+          <div className="scoreboard-num text-[clamp(4rem,14vw,9rem)] leading-none tabular-nums">
             {round.day}
           </div>
-          <div className="font-display text-3xl sm:text-4xl uppercase mt-1">{round.month}</div>
+          <div className="font-display text-2xl sm:text-4xl uppercase mt-2">{round.month}</div>
         </div>
 
-        <h3 className="font-display text-xl uppercase mt-8 mb-2">{round.title}</h3>
-        <p className="text-sm opacity-80 mb-8">{round.blurb}</p>
+        <h3 className="font-display text-xl uppercase mt-8 mb-3 leading-[1.1]">{round.title}</h3>
+        <p className="text-sm opacity-80 mb-8 leading-[1.6]">{round.blurb}</p>
 
         {round.status !== 'past' && (
           <Link

@@ -65,7 +65,7 @@ export default function Calendar() {
                 to stay in the running for <a href="https://www.suninternational.com/sun-city/" target="_blank" rel="noopener noreferrer" className="prose-link !text-orange-400">Sun City</a>.
               </p>
             </div>
-            <div className="col-span-12 lg:col-span-5 flex items-end">
+            <div className="col-span-12 lg:col-span-5 flex items-end mt-4 lg:mt-0">
               <div className="w-full bg-navy-900/70 border-2 border-white/15 backdrop-blur-md p-6 sm:p-8">
                 <Countdown />
               </div>
@@ -119,7 +119,7 @@ export default function Calendar() {
             </p>
           </SectionReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-6">
             {calendar.map((r, i) => (
               <SectionReveal key={r.round} delay={i * 40}>
                 <EventCard round={r} isNext={i === nextIdx} />

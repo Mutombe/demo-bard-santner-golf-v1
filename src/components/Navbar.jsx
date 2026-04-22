@@ -103,7 +103,7 @@ export default function Navbar({ onOpenSearch }) {
       {open && (
         <div className="fixed inset-0 z-40 lg:hidden bg-navy-950 pt-20 animate-slide-in-right">
           <div className="grid-lines absolute inset-0 pointer-events-none" />
-          <nav className="relative px-6 py-8 flex flex-col gap-1">
+          <nav className="relative px-6 py-8 flex flex-col gap-1.5">
             {navLinks.map((link, i) => (
               <NavLink
                 key={link.to}

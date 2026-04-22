@@ -141,7 +141,11 @@ export default function Register() {
 
       {/* Step progress */}
       <section className="bg-white sticky top-16 sm:top-20 z-30 border-b-2 border-navy-900">
-        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-4">
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-4 sm:py-5">
+          {/* Mobile: current step label above dots */}
+          <p className="md:hidden text-center label-xs text-orange-500 mb-3">
+            STEP <CountUp to={step + 1} pad={2} duration={600} /> / <CountUp to={steps.length} pad={2} duration={600} /> · <span className="text-navy-900">{steps[step]?.label}</span>
+          </p>
           <div className="flex items-center justify-between">
             {steps.map((s, i) => {
               const Icon = s.icon;
@@ -154,7 +158,7 @@ export default function Register() {
                     disabled={!done && !active}
                     className={`flex items-center gap-2 sm:gap-3 ${done ? 'cursor-pointer' : 'cursor-default'}`}
                   >
-                    <div className={`h-9 w-9 sm:h-11 sm:w-11 flex items-center justify-center border-2 transition ${
+                    <div className={`h-10 w-10 sm:h-11 sm:w-11 flex items-center justify-center border-2 transition ${
                       done ? 'bg-navy-900 border-navy-900 text-white' :
                       active ? 'bg-orange-500 border-orange-500 text-white' :
                       'bg-white border-steel-200 text-steel-300'
@@ -171,7 +175,7 @@ export default function Register() {
                     </div>
                   </button>
                   {i < steps.length - 1 && (
-                    <div className={`flex-1 h-0.5 mx-2 sm:mx-3 ${step > i ? 'bg-navy-900' : 'bg-steel-200'}`} />
+                    <div className={`flex-1 h-0.5 mx-1.5 sm:mx-3 ${step > i ? 'bg-navy-900' : 'bg-steel-200'}`} />
                   )}
                 </React.Fragment>
               );
@@ -192,18 +196,18 @@ export default function Register() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-white border-2 border-navy-900 p-6 sm:p-10"
+                className="bg-white border-2 border-navy-900 p-7 sm:p-10"
               >
                 <p className="label-xs text-orange-500 mb-3">STEP <CountUp to={1} pad={2} duration={600} /> / EVENT</p>
                 <h2 className="font-display text-3xl sm:text-4xl uppercase text-navy-900 leading-tight mb-8">
                   WHICH ROUND<br />ARE YOU RUNNING?
                 </h2>
 
-                <div className="space-y-3">
+                <div className="space-y-3 sm:space-y-3">
                   {upcomingEvents.map((ev) => (
                     <label
                       key={ev.value}
-                      className={`flex items-center gap-4 p-4 border-2 transition ${
+                      className={`flex items-center gap-4 p-5 sm:p-4 border-2 transition min-h-[56px] ${
                         ev.disabled ? 'opacity-40 cursor-not-allowed border-steel-200' :
                         state.event === ev.value ? 'border-orange-500 bg-orange-50 cursor-pointer' :
                         'border-steel-200 hover:border-navy-900 cursor-pointer'
@@ -244,14 +248,14 @@ export default function Register() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-white border-2 border-navy-900 p-6 sm:p-10"
+                className="bg-white border-2 border-navy-900 p-7 sm:p-10"
               >
                 <p className="label-xs text-orange-500 mb-3">STEP <CountUp to={2} pad={2} duration={600} /> / PLAYER</p>
                 <h2 className="font-display text-3xl sm:text-4xl uppercase text-navy-900 leading-tight mb-8">
                   WHO'S ON THE<br />STARTING GRID?
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                   <Field label="First Name *" value={state.firstName} onChange={(v) => dispatch({ type: 'SET', field: 'firstName', value: v })} />
                   <Field label="Surname *" value={state.surname} onChange={(v) => dispatch({ type: 'SET', field: 'surname', value: v })} />
 
@@ -263,7 +267,7 @@ export default function Register() {
                           key={g}
                           type="button"
                           onClick={() => dispatch({ type: 'SET', field: 'gender', value: g })}
-                          className={`flex-1 py-3 border-2 font-bold transition ${
+                          className={`flex-1 py-3.5 sm:py-3 border-2 font-bold transition min-h-[48px] ${
                             state.gender === g
                               ? 'bg-orange-500 border-orange-500 text-white'
                               : 'bg-white border-steel-300 text-navy-900 hover:border-navy-900'
@@ -300,7 +304,7 @@ export default function Register() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-white border-2 border-navy-900 p-6 sm:p-10"
+                className="bg-white border-2 border-navy-900 p-7 sm:p-10"
               >
                 <p className="label-xs text-orange-500 mb-3">STEP <CountUp to={3} pad={2} duration={600} /> / SLOT</p>
                 <h2 className="font-display text-3xl sm:text-4xl uppercase text-navy-900 leading-tight mb-3">
@@ -343,27 +347,27 @@ export default function Register() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-white border-2 border-navy-900 p-6 sm:p-10"
+                className="bg-white border-2 border-navy-900 p-7 sm:p-10"
               >
                 <p className="label-xs text-orange-500 mb-3">STEP <CountUp to={4} pad={2} duration={600} /> / CONTACT</p>
                 <h2 className="font-display text-3xl sm:text-4xl uppercase text-navy-900 leading-tight mb-8">
                   HOW DO WE<br />REACH YOU?
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                   <Field label="Cell (+263...) *" value={state.cell} placeholder="+263 77 000 0000" onChange={(v) => dispatch({ type: 'SET', field: 'cell', value: v })} />
                   <Field label="Email *" type="email" value={state.email} onChange={(v) => dispatch({ type: 'SET', field: 'email', value: v })} />
                   <Field label="Dietary requirements" value={state.dietary} placeholder="Optional" onChange={(v) => dispatch({ type: 'SET', field: 'dietary', value: v })} />
 
                   <div>
                     <label className="label-xs text-navy-900 block mb-2">Golf shirt size *</label>
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-4 gap-2.5 sm:gap-2">
                       {shirtSizes.map((sz) => (
                         <button
                           key={sz}
                           type="button"
                           onClick={() => dispatch({ type: 'SET', field: 'shirtSize', value: sz })}
-                          className={`py-2.5 border-2 font-mono text-sm font-bold transition ${
+                          className={`py-3 sm:py-2.5 border-2 font-mono text-sm font-bold transition min-h-[44px] ${
                             state.shirtSize === sz
                               ? 'bg-navy-900 border-navy-900 text-white'
                               : 'bg-white border-steel-300 text-navy-900 hover:border-navy-900'
@@ -388,7 +392,7 @@ export default function Register() {
                           key={v}
                           type="button"
                           onClick={() => dispatch({ type: 'SET', field: 'prizeGiving', value: v })}
-                          className={`flex-1 py-3 border-2 font-bold transition ${
+                          className={`flex-1 py-3.5 sm:py-3 border-2 font-bold transition min-h-[48px] ${
                             state.prizeGiving === v
                               ? v === 'Yes'
                                 ? 'bg-orange-500 border-orange-500 text-white'
@@ -477,17 +481,17 @@ export default function Register() {
                     confirmation by the Tournament Organiser — usually within{' '}
                     <CountUp to={60} className="!text-orange-600 font-bold" duration={900} /> minutes on weekdays.
                   </p>
-                  <div className="flex flex-wrap items-center gap-4">
+                  <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
                     <button
                       onClick={handleSubmit}
-                      className="inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-8 py-5 label-xs font-bold transition clip-arrow-right"
+                      className="inline-flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-6 sm:px-8 py-4 sm:py-5 min-h-[48px] label-xs font-bold transition clip-arrow-right"
                     >
                       <WhatsappLogo size={18} weight="fill" />
                       SUBMIT VIA WHATSAPP
                     </button>
                     <a
                       href={`mailto:${business.emailGolf}?subject=${encodeURIComponent('Bard Santner Road to S.A. — Registration')}&body=${encodeURIComponent(buildMessage())}`}
-                      className="inline-flex items-center gap-3 border-2 border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white px-8 py-5 label-xs font-bold transition"
+                      className="inline-flex items-center justify-center gap-3 border-2 border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white px-6 sm:px-8 py-4 sm:py-5 min-h-[48px] label-xs font-bold transition"
                     >
                       <Envelope size={18} weight="fill" />
                       EMAIL INSTEAD
@@ -499,11 +503,11 @@ export default function Register() {
           </AnimatePresence>
 
           {/* Nav buttons */}
-          <div className="mt-8 flex items-center justify-between gap-4">
+          <div className="mt-8 sm:mt-10 flex items-center justify-between gap-4">
             <button
               onClick={() => dispatch({ type: 'BACK' })}
               disabled={step === 0}
-              className={`inline-flex items-center gap-2 px-5 py-3 label-xs font-bold transition ${
+              className={`inline-flex items-center gap-2 px-5 py-3.5 sm:py-3 min-h-[48px] label-xs font-bold transition ${
                 step === 0
                   ? 'opacity-30 cursor-not-allowed text-steel-500'
                   : 'text-navy-900 hover:text-orange-500'
@@ -516,7 +520,7 @@ export default function Register() {
               <button
                 onClick={handleNext}
                 disabled={!canProceed}
-                className={`inline-flex items-center gap-3 px-8 py-5 label-xs font-bold transition clip-arrow-right ${
+                className={`inline-flex items-center gap-3 px-6 sm:px-8 py-4 sm:py-5 min-h-[48px] label-xs font-bold transition clip-arrow-right ${
                   canProceed
                     ? 'bg-orange-500 hover:bg-orange-400 text-white'
                     : 'bg-steel-200 text-steel-400 cursor-not-allowed'
@@ -545,7 +549,7 @@ function Field({ label, value, onChange, type = 'text', placeholder = '' }) {
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full px-4 py-3 border-2 border-steel-300 focus:border-orange-500 focus:outline-none bg-white text-navy-900 transition"
+          className="w-full px-4 py-3.5 sm:py-3 min-h-[48px] border-2 border-steel-300 focus:border-orange-500 focus:outline-none bg-white text-navy-900 transition"
         />
         {/* Golf-ball underline on focus */}
         <div

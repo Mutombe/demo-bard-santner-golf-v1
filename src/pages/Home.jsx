@@ -146,18 +146,18 @@ export default function Home() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="mt-5 sm:mt-7 flex flex-wrap items-center gap-3"
+                  className="mt-6 sm:mt-7 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4"
                 >
                   <Link
                     to="/register"
-                    className="group inline-flex items-center gap-2.5 bg-orange-500 hover:bg-orange-400 text-white px-5 sm:px-7 py-3 sm:py-4 label-xs font-bold transition clip-arrow-right"
+                    className="group inline-flex items-center justify-center gap-2.5 bg-orange-500 hover:bg-orange-400 text-white px-6 sm:px-7 py-4 min-h-[48px] label-xs font-bold transition clip-arrow-right"
                   >
                     BOOK YOUR TEE-TIME
                     <ArrowRight size={16} weight="bold" className="group-hover:translate-x-1 transition" />
                   </Link>
                   <Link
                     to="/calendar"
-                    className="inline-flex items-center gap-2 border-2 border-white text-white hover:border-orange-500 hover:text-orange-500 px-5 sm:px-7 py-3 sm:py-4 label-xs font-bold transition"
+                    className="inline-flex items-center justify-center gap-2 border-2 border-white text-white hover:border-orange-500 hover:text-orange-500 px-6 sm:px-7 py-4 min-h-[48px] label-xs font-bold transition"
                   >
                     9-ROUND CALENDAR
                   </Link>
@@ -170,27 +170,27 @@ export default function Home() {
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className="bg-navy-900/75 backdrop-blur-md border-2 border-white/15 p-4 sm:p-6"
+                  className="bg-navy-900/75 backdrop-blur-md border-2 border-white/15 p-5 sm:p-6"
                 >
                   <Countdown compact />
 
-                  <div className="mt-5 pt-4 border-t border-white/10 grid grid-cols-3 gap-3">
+                  <div className="mt-6 pt-5 border-t border-white/10 grid grid-cols-3 gap-4">
                     <div>
                       <div className="scoreboard-label text-orange-400">ROUND</div>
-                      <div className="scoreboard-num text-2xl sm:text-3xl mt-0.5 tabular-nums">
+                      <div className="scoreboard-num text-2xl sm:text-3xl mt-1.5 tabular-nums">
                         <CountUp to={calendar[nextIdx].round} pad={2} duration={1400} />
                         <span className="text-steel-500 text-base"> / <CountUp to={9} pad={2} duration={1400} /></span>
                       </div>
                     </div>
                     <div>
                       <div className="scoreboard-label text-orange-400">PAR</div>
-                      <div className="scoreboard-num text-2xl sm:text-3xl mt-0.5 tabular-nums">
+                      <div className="scoreboard-num text-2xl sm:text-3xl mt-1.5 tabular-nums">
                         <CountUp to={72} duration={1400} />
                       </div>
                     </div>
                     <div>
                       <div className="scoreboard-label text-orange-400">H.A.</div>
-                      <div className="scoreboard-num text-2xl sm:text-3xl mt-0.5 tabular-nums">
+                      <div className="scoreboard-num text-2xl sm:text-3xl mt-1.5 tabular-nums">
                         <CountUp to={75} duration={1400} /><span className="text-sm">%</span>
                       </div>
                     </div>
@@ -269,7 +269,7 @@ export default function Home() {
           </SectionReveal>
 
           <SectionReveal delay={100}>
-            <div className="mt-14 sm:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
+            <div className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
               {eventStats.map((s, i) => {
                 const to = i === 0 ? '/calendar' : i === 1 ? '/register' : i === 2 ? '/conditions' : '/event';
                 return (
@@ -373,7 +373,7 @@ export default function Home() {
             </h2>
           </SectionReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {calendar.slice(Math.max(0, nextIdx - 0), nextIdx + 3).slice(0, 3).map((r) => (
               <EventCard key={r.round} round={r} isNext={r.round === calendar[nextIdx].round} />
             ))}
@@ -409,24 +409,24 @@ export default function Home() {
                   WALK THE FAIRWAYS <ArrowRight size={14} weight="bold" />
                 </Link>
 
-                <div className="mt-10 grid grid-cols-3 gap-4 pt-8 border-t-2 border-navy-900">
+                <div className="mt-10 grid grid-cols-3 gap-5 sm:gap-6 pt-8 border-t-2 border-navy-900">
                   <Link to="/course" className="group block">
-                    <div className="scoreboard-num text-4xl text-navy-900 tabular-nums group-hover:text-orange-500 transition">
+                    <div className="scoreboard-num text-3xl sm:text-4xl text-navy-900 tabular-nums group-hover:text-orange-500 transition">
                       <CountUp to={courseFacts.holes} />
                     </div>
-                    <div className="label-xs text-steel-500 mt-1 group-hover:text-navy-900 transition">HOLES</div>
+                    <div className="label-xs text-steel-500 mt-2 group-hover:text-navy-900 transition">HOLES</div>
                   </Link>
                   <Link to="/course" className="group block">
-                    <div className="scoreboard-num text-4xl text-navy-900 tabular-nums group-hover:text-orange-500 transition">
+                    <div className="scoreboard-num text-3xl sm:text-4xl text-navy-900 tabular-nums group-hover:text-orange-500 transition">
                       {courseFacts.courseRating}
                     </div>
-                    <div className="label-xs text-steel-500 mt-1 group-hover:text-navy-900 transition">RATING</div>
+                    <div className="label-xs text-steel-500 mt-2 group-hover:text-navy-900 transition">RATING</div>
                   </Link>
                   <Link to="/course" className="group block">
-                    <div className="scoreboard-num text-4xl text-navy-900 tabular-nums group-hover:text-orange-500 transition">
+                    <div className="scoreboard-num text-3xl sm:text-4xl text-navy-900 tabular-nums group-hover:text-orange-500 transition">
                       <CountUp to={parseInt(courseFacts.slope, 10)} />
                     </div>
-                    <div className="label-xs text-steel-500 mt-1 group-hover:text-navy-900 transition">SLOPE</div>
+                    <div className="label-xs text-steel-500 mt-2 group-hover:text-navy-900 transition">SLOPE</div>
                   </Link>
                 </div>
               </SectionReveal>
@@ -451,7 +451,7 @@ export default function Home() {
                 </div>
               </SectionReveal>
 
-              <div className="mt-5 grid grid-cols-2 gap-5">
+              <div className="mt-6 sm:mt-5 grid grid-cols-2 gap-4 sm:gap-5">
                 <SectionReveal delay={150} className="photo-hover">
                   <img src="/images/clubhouse.jpg" alt="Clubhouse" loading="lazy" className="w-full aspect-square object-cover object-center" onError={(e) => (e.currentTarget.style.display = 'none')} />
                 </SectionReveal>
@@ -493,7 +493,7 @@ export default function Home() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.12 } },
             }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
           >
             {prizeLadder.map((p, i) => (
               <motion.div
@@ -507,7 +507,7 @@ export default function Home() {
                 <Link
                   to="/event"
                   onClick={() => haptic()}
-                  className={`press-physics group relative block h-full p-6 sm:p-8 lg:p-10 border-2 transition-all duration-300 hover:-translate-y-1 ${
+                  className={`press-physics group relative block h-full p-7 sm:p-8 lg:p-10 border-2 transition-all duration-300 hover:-translate-y-1 ${
                     p.accent === 'orange'
                       ? 'bg-orange-500 text-white border-orange-500 hover:shadow-[6px_6px_0_0_#0B0A19]'
                       : p.accent === 'navy'
@@ -578,12 +578,12 @@ export default function Home() {
                     <li>
                       <Link
                         to="/conditions"
-                        className="group flex items-start gap-5 py-4 border-b-2 border-steel-100 hover:bg-steel-50 transition -mx-2 px-2"
+                        className="group flex items-start gap-4 sm:gap-5 py-5 sm:py-5 border-b-2 border-steel-100 hover:bg-steel-50 transition -mx-2 px-2"
                       >
-                        <div className="scoreboard-num text-2xl sm:text-3xl text-orange-500 tabular-nums shrink-0 w-14">
+                        <div className="scoreboard-num text-2xl sm:text-3xl text-orange-500 tabular-nums shrink-0 w-12 sm:w-14 leading-none">
                           <CountUp to={i + 1} pad={2} duration={1000} />
                         </div>
-                        <p className="text-base sm:text-lg text-navy-900 pt-1 leading-relaxed flex-1 group-hover:text-orange-600 transition">{b}</p>
+                        <p className="text-base sm:text-lg text-navy-900 pt-1 leading-[1.6] flex-1 group-hover:text-orange-600 transition">{b}</p>
                         <ArrowRight size={18} weight="bold" className="text-steel-300 group-hover:text-orange-500 group-hover:translate-x-1 transition shrink-0 mt-2" />
                       </Link>
                     </li>
@@ -701,10 +701,10 @@ export default function Home() {
               <Link to="/calendar" className="prose-link !text-orange-400">next qualifier</Link> at Royal Harare.
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="mt-10 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
               <Link
                 to="/register"
-                className="inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-8 py-5 label-xs font-bold transition clip-arrow-right"
+                className="inline-flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-6 sm:px-8 py-4 sm:py-5 min-h-[48px] label-xs font-bold transition clip-arrow-right"
               >
                 REGISTER NOW <ArrowRight size={18} weight="bold" />
               </Link>
@@ -712,7 +712,7 @@ export default function Home() {
                 href={business.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 border-2 border-white text-white hover:border-orange-500 hover:text-orange-500 px-8 py-5 label-xs font-bold transition"
+                className="inline-flex items-center justify-center gap-3 border-2 border-white text-white hover:border-orange-500 hover:text-orange-500 px-6 sm:px-8 py-4 sm:py-5 min-h-[48px] label-xs font-bold transition"
               >
                 <WhatsappLogo size={18} weight="fill" />
                 WHATSAPP THE DESK

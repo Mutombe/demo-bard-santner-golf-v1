@@ -48,15 +48,15 @@ export default function Countdown({ compact = false }) {
             NEXT TEE-OFF · ROUND {String(round.round).padStart(2, '0')}
           </span>
         </div>
-        <p className="font-display text-lg sm:text-xl uppercase text-white mb-3">{round.dateLabel}</p>
-        <div className="grid grid-cols-4 gap-2">
+        <p className="font-display text-lg sm:text-xl uppercase text-white mb-4">{round.dateLabel}</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {cells.map((c) => (
             <div
               key={c.label}
-              className="border border-white/20 bg-black/30 px-1.5 py-2 text-center"
+              className="border border-white/20 bg-black/30 px-2 py-3.5 sm:py-3 text-center"
             >
-              <div className="scoreboard-num text-2xl sm:text-3xl text-white tabular-nums">{c.value}</div>
-              <div className="scoreboard-label text-orange-400 text-[9px] mt-1">{c.label}</div>
+              <div className="scoreboard-num text-3xl sm:text-3xl text-white tabular-nums">{c.value}</div>
+              <div className="scoreboard-label text-orange-400 text-[10px] sm:text-[9px] mt-1.5">{c.label}</div>
             </div>
           ))}
         </div>
@@ -71,16 +71,16 @@ export default function Countdown({ compact = false }) {
         <span className="label-xs text-orange-400">NEXT TEE-OFF · ROUND {String(round.round).padStart(2, '0')}</span>
       </div>
       <p className="font-display text-2xl sm:text-3xl uppercase text-white mb-6">{round.dateLabel}</p>
-      <div className="grid grid-cols-4 gap-3 sm:gap-5 max-w-xl">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 max-w-xl">
         {cells.map((c) => (
           <div
             key={c.label}
-            className="border-2 border-white/20 bg-black/20 backdrop-blur-sm px-2 sm:px-4 py-5 sm:py-8 text-center"
+            className="border-2 border-white/20 bg-black/20 backdrop-blur-sm px-3 sm:px-4 py-6 sm:py-8 text-center"
           >
-            <div className="scoreboard-num text-[clamp(2.75rem,9vw,5rem)] text-white tabular-nums">
+            <div className="scoreboard-num text-[clamp(2.75rem,11vw,5rem)] text-white tabular-nums">
               {c.value}
             </div>
-            <div className="scoreboard-label text-orange-400 mt-2">{c.label}</div>
+            <div className="scoreboard-label text-orange-400 mt-2.5 sm:mt-2">{c.label}</div>
           </div>
         ))}
       </div>

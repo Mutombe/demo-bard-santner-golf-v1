@@ -28,11 +28,11 @@ export default function NotFound() {
             <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" className="prose-link !text-orange-400">ping the organiser</a>.
           </p>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <Link to="/" className="inline-flex items-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-6 py-4 label-xs font-bold transition">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
+            <Link to="/" className="inline-flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-6 py-4 min-h-[48px] label-xs font-bold transition">
               <HouseSimple size={18} weight="fill" /> BACK TO SCOREBOARD
             </Link>
-            <Link to="/calendar" className="inline-flex items-center gap-2 border-2 border-white hover:border-orange-500 text-white hover:text-orange-500 px-6 py-4 label-xs font-bold transition">
+            <Link to="/calendar" className="inline-flex items-center justify-center gap-2 border-2 border-white hover:border-orange-500 text-white hover:text-orange-500 px-6 py-4 min-h-[48px] label-xs font-bold transition">
               CALENDAR <ArrowRight size={16} weight="bold" />
             </Link>
           </div>

@@ -47,11 +47,11 @@ export default function StatCounter({
 
   return (
     <div ref={ref} className={`border-l-4 border-orange-500 pl-5 sm:pl-6 ${className}`}>
-      <div className={`scoreboard-num text-[clamp(3rem,8vw,5.5rem)] text-navy-900 tabular-nums ${numClassName}`}>
+      <div className={`scoreboard-num text-[clamp(2.75rem,8vw,5.5rem)] text-navy-900 tabular-nums leading-none ${numClassName}`}>
         {displayValue}
       </div>
-      <div className="scoreboard-label text-navy-900 mt-2">{label}</div>
-      {sub && <div className="text-xs text-steel-500 mt-1">{sub}</div>}
+      <div className="scoreboard-label text-navy-900 mt-3 sm:mt-2.5">{label}</div>
+      {sub && <div className="text-xs text-steel-500 mt-1.5 leading-[1.5]">{sub}</div>}
     </div>
   );
 }

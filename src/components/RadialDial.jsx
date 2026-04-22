@@ -156,12 +156,12 @@ export default function RadialDial({
         </text>
       </svg>
 
-      <div className="mt-3 text-center">
+      <div className="mt-5 text-center">
         <p className="label-xs text-orange-500">{title}</p>
-        <p className="font-display text-lg uppercase text-navy-900 mt-1 leading-tight">
+        <p className="font-display text-lg uppercase text-navy-900 mt-2 leading-tight">
           {value} {label}
         </p>
-        <p className="label-xs text-steel-500 mt-0.5">{caption}</p>
+        <p className="label-xs text-steel-500 mt-1.5">{caption}</p>
       </div>
     </div>
   );

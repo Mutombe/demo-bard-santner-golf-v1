@@ -86,7 +86,7 @@ export default function Contact() {
       {/* Contact blocks */}
       <section className="py-14 sm:py-20 bg-white">
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-6">
             {contactBlocks.map((block, i) => {
               const Icon = iconFor(block.type);
               return (
@@ -95,17 +95,17 @@ export default function Contact() {
                     href={block.action}
                     target={block.type === 'location' ? '_blank' : undefined}
                     rel={block.type === 'location' ? 'noopener noreferrer' : undefined}
-                    className="group block bg-white border-2 border-navy-900 p-6 sm:p-8 hover:bg-navy-950 hover:text-white transition-colors duration-300 h-full"
+                    className="group block bg-white border-2 border-navy-900 p-7 sm:p-8 hover:bg-navy-950 hover:text-white transition-colors duration-300 h-full"
                   >
                     <div className="flex items-start justify-between mb-8">
                       <Icon size={32} weight="duotone" className="text-orange-500" />
                       <ArrowRight size={20} weight="bold" className="text-navy-900 group-hover:text-orange-500 group-hover:translate-x-1 transition" />
                     </div>
                     <p className="label-xs text-orange-500 mb-3">{block.label}</p>
-                    <p className="font-display text-2xl sm:text-3xl uppercase text-navy-900 group-hover:text-white mb-2 leading-tight break-words">
+                    <p className="font-display text-2xl sm:text-3xl uppercase text-navy-900 group-hover:text-white mb-3 leading-[1.15] break-words">
                       {block.primary}
                     </p>
-                    <p className="text-sm text-steel-600 group-hover:text-steel-300">{block.secondary}</p>
+                    <p className="text-sm text-steel-600 group-hover:text-steel-300 leading-[1.6]">{block.secondary}</p>
                   </a>
                 </SectionReveal>
               );
@@ -132,11 +132,11 @@ export default function Contact() {
           {/* Channel toggle — club selector */}
           <div className="bg-white border-2 border-navy-900 p-5 sm:p-6 mb-6">
             <p className="label-xs text-navy-900 mb-4">PICK YOUR CLUB</p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3">
               <button
                 type="button"
                 onClick={() => setChannel('whatsapp')}
-                className={`relative flex items-center gap-4 p-4 border-2 transition-all ${
+                className={`relative flex items-center gap-4 p-4 sm:p-4 border-2 transition-all ${
                   channel === 'whatsapp'
                     ? 'border-orange-500 bg-orange-50'
                     : 'border-steel-300 bg-white hover:border-navy-900'
@@ -146,7 +146,7 @@ export default function Contact() {
                 <div className="text-left">
                   <p className="label-xs text-orange-600">WEDGE</p>
                   <p className="font-display text-xl uppercase text-navy-900 leading-tight">WhatsApp</p>
-                  <p className="text-[11px] text-steel-500">Fastest · live during tournaments</p>
+                  <p className="text-[11px] text-steel-500 mt-0.5">Fastest · live during tournaments</p>
                 </div>
                 {channel === 'whatsapp' && (
                   <motion.span
@@ -159,7 +159,7 @@ export default function Contact() {
               <button
                 type="button"
                 onClick={() => setChannel('email')}
-                className={`relative flex items-center gap-4 p-4 border-2 transition-all ${
+                className={`relative flex items-center gap-4 p-4 sm:p-4 border-2 transition-all ${
                   channel === 'email'
                     ? 'border-orange-500 bg-orange-50'
                     : 'border-steel-300 bg-white hover:border-navy-900'
@@ -169,7 +169,7 @@ export default function Contact() {
                 <div className="text-left">
                   <p className="label-xs text-orange-600">PUTTER</p>
                   <p className="font-display text-xl uppercase text-navy-900 leading-tight">Email</p>
-                  <p className="text-[11px] text-steel-500">Weekday replies · within the hour</p>
+                  <p className="text-[11px] text-steel-500 mt-0.5">Weekday replies · within the hour</p>
                 </div>
                 {channel === 'email' && (
                   <motion.span
@@ -182,8 +182,8 @@ export default function Contact() {
           </div>
 
           {/* Form */}
-          <div className="bg-white border-2 border-navy-900 p-5 sm:p-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="bg-white border-2 border-navy-900 p-6 sm:p-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
               <ContactField
                 label="Your name *"
                 value={form.name}
@@ -220,19 +220,19 @@ export default function Contact() {
                   onBlur={() => setFocusedField(null)}
                   rows={5}
                   placeholder="Tell us about your query..."
-                  className="w-full px-4 py-3 border-2 border-steel-300 focus:border-orange-500 focus:outline-none bg-white text-navy-900 transition font-body"
+                  className="w-full px-4 py-3.5 sm:py-3 border-2 border-steel-300 focus:border-orange-500 focus:outline-none bg-white text-navy-900 transition font-body"
                 />
               </div>
             </div>
 
-            <div className="mt-6 pt-6 border-t-2 border-steel-100 flex flex-wrap items-center justify-between gap-4">
-              <p className="text-xs text-steel-500 rich-copy">
+            <div className="mt-6 pt-6 border-t-2 border-steel-100 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center justify-between gap-4">
+              <p className="text-xs text-steel-500 rich-copy leading-[1.6]">
                 By sending you'll open <b>{channel === 'whatsapp' ? 'WhatsApp' : 'your email app'}</b> with your message pre-filled.
               </p>
               <button
                 type="button"
                 onClick={handleSend}
-                className={`inline-flex items-center gap-3 px-8 py-4 label-xs font-bold transition clip-arrow-right text-white ${
+                className={`inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-4 min-h-[48px] label-xs font-bold transition clip-arrow-right text-white ${
                   channel === 'whatsapp' ? 'bg-orange-500 hover:bg-orange-400' : 'bg-navy-900 hover:bg-navy-800'
                 }`}
               >
@@ -325,7 +325,7 @@ function ContactField({ label, value, onChange, type = 'text', focused, onFocus,
           onFocus={onFocus}
           onBlur={onBlur}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full px-4 py-3 border-2 border-steel-300 focus:border-orange-500 focus:outline-none bg-white text-navy-900 transition"
+          className="w-full px-4 py-3.5 sm:py-3 min-h-[48px] border-2 border-steel-300 focus:border-orange-500 focus:outline-none bg-white text-navy-900 transition"
         />
         {/* Golf-ball underline — travels left-to-right on focus */}
         <div

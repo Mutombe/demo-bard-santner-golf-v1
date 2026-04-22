@@ -107,7 +107,7 @@ export default function TheCourse() {
           </div>
 
           {/* Stats card — every number counts up */}
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8 pt-10 border-t-2 border-navy-900">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-7 sm:gap-8 pt-10 border-t-2 border-navy-900">
             {[
               { value: courseFacts.holes, label: 'HOLES', sub: 'Championship layout' },
               { value: courseFacts.par, label: 'PAR', sub: "Men's scorecard" },
@@ -116,15 +116,15 @@ export default function TheCourse() {
               { value: parseInt(courseFacts.slope, 10), label: 'SLOPE', sub: 'White tees' },
             ].map((s) => (
               <div key={s.label} className="border-l-4 border-orange-500 pl-4 sm:pl-5">
-                <div className="scoreboard-num text-[clamp(2.4rem,5vw,3.6rem)] text-navy-900 tabular-nums">
+                <div className="scoreboard-num text-[clamp(2.2rem,5vw,3.6rem)] text-navy-900 tabular-nums leading-none">
                   {s.divide ? (
                     <CountUpDecimal to={s.value} divide={s.divide} decimals={s.decimals} />
                   ) : (
                     <CountUp to={s.value} duration={1400} />
                   )}
                 </div>
-                <div className="scoreboard-label text-navy-900 mt-2">{s.label}</div>
-                <div className="text-xs text-steel-500 mt-1">{s.sub}</div>
+                <div className="scoreboard-label text-navy-900 mt-3">{s.label}</div>
+                <div className="text-xs text-steel-500 mt-1.5 leading-[1.5]">{s.sub}</div>
               </div>
             ))}
           </div>
@@ -166,7 +166,7 @@ export default function TheCourse() {
             </p>
           </SectionReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-6">
             {courseFacts.signatureHoles.map((h, i) => (
               <SectionReveal key={h.name} delay={i * 100}>
                 <div className="bg-white border-2 border-navy-900 overflow-hidden h-full">
@@ -176,10 +176,10 @@ export default function TheCourse() {
                       PAR <CountUp to={h.par} duration={800} />
                     </div>
                   </div>
-                  <div className="p-5 sm:p-6">
-                    <h3 className="font-display text-2xl uppercase text-navy-900 mb-1">{h.name}</h3>
-                    <p className="label-xs text-orange-500 mb-3">{h.length}</p>
-                    <p className="text-sm text-steel-700 leading-relaxed">{h.note}</p>
+                  <div className="p-6 sm:p-7">
+                    <h3 className="font-display text-2xl uppercase text-navy-900 mb-2 leading-[1.15]">{h.name}</h3>
+                    <p className="label-xs text-orange-500 mb-4">{h.length}</p>
+                    <p className="text-sm text-steel-700 leading-[1.6]">{h.note}</p>
                   </div>
                 </div>
               </SectionReveal>
@@ -234,7 +234,7 @@ export default function TheCourse() {
             </p>
           </SectionReveal>
 
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 md:gap-5">
             {courseShots.map((g, i) => (
               <SectionReveal key={i} delay={i * 60} className="photo-hover">
                 <img

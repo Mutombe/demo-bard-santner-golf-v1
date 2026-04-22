@@ -88,14 +88,14 @@ export default function Home() {
         <HeroCarousel />
         <div className="absolute inset-0 grid-lines opacity-20 pointer-events-none" />
 
-        {/* Top status bar */}
-        <div className="relative border-b border-white/10 shrink-0 z-10">
-          <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-2.5 flex items-center justify-between text-[10px] tracking-[0.2em] uppercase font-mono">
+        {/* Top status bar — hidden on mobile, padding preserved via min-h for spacing */}
+        <div className="relative border-b border-white/10 shrink-0 z-10 min-h-[2.25rem]">
+          <div className="hidden sm:flex max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-2.5 items-center justify-between text-[10px] tracking-[0.2em] uppercase font-mono">
             <div className="flex items-center gap-2.5">
               <span className="h-2 w-2 bg-orange-500 rounded-full animate-pulse-dot" />
               <span className="text-orange-400">SEASON 2025 — LIVE</span>
             </div>
-            <div className="hidden sm:flex items-center gap-4 text-steel-300">
+            <div className="flex items-center gap-4 text-steel-300">
               <span>ROYAL HARARE · ZW</span>
               <span className="hidden md:inline">LAT -17.80 · LON 31.07</span>
             </div>

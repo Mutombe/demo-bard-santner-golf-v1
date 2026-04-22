@@ -77,8 +77,12 @@ export default function Home() {
            HERO — single-photo slide-left carousel · scoreboard
       ================================================================ */}
       <section
-        className="relative bg-navy-950 text-white overflow-hidden flex flex-col pt-[88px] sm:pt-[100px] md:pt-[108px]"
-        style={{ height: '100svh', minHeight: '640px' }}
+        className="relative bg-navy-950 text-white overflow-hidden flex flex-col"
+        style={{
+          paddingTop: 'calc(5rem + env(safe-area-inset-top, 0px) + 44px)',
+          height: '100svh',
+          minHeight: '700px',
+        }}
       >
         {/* Proper single-photo-at-a-time carousel */}
         <HeroCarousel />

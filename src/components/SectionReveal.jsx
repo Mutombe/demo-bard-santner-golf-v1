@@ -1,12 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 /**
- * SectionReveal — cinematic "unveil" rather than a fade.
- * - Shorter translate (12px) → arrives, not animates.
- * - Top-down clip-path sweep (sub-5% tint overlay) → section appears to be curtained in.
- * - Stagger-friendly via `delay` prop.
- *
- * Respects prefers-reduced-motion (instant reveal).
+ * SectionReveal — safe opacity + subtle translate reveal.
+ * Fails visible (if observer never fires, content still renders).
  */
 export default function SectionReveal({
   children,
@@ -32,22 +28,22 @@ export default function SectionReveal({
           io.disconnect();
         }
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.05, rootMargin: '0px 0px -10px 0px' }
     );
     io.observe(node);
-    return () => io.disconnect();
+    // Safety net: if observer doesn't fire within 2s, reveal anyway
+    const fallback = setTimeout(() => setVisible(true), 2000);
+    return () => { io.disconnect(); clearTimeout(fallback); };
   }, []);
 
   const hiddenTransform =
     from === 'left'
-      ? 'translateX(-20px)'
+      ? 'translateX(-16px)'
       : from === 'right'
-      ? 'translateX(20px)'
+      ? 'translateX(16px)'
       : 'translateY(12px)';
 
   const duration = reducedMotion ? 0 : 700;
-  const clipHidden = 'inset(0 0 100% 0)';
-  const clipVisible = 'inset(0 0 0 0)';
 
   return (
     <Tag
@@ -56,12 +52,10 @@ export default function SectionReveal({
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? 'none' : hiddenTransform,
-        clipPath: visible ? clipVisible : clipHidden,
-        WebkitClipPath: visible ? clipVisible : clipHidden,
         transition: reducedMotion
           ? 'none'
-          : `opacity ${duration}ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, transform ${duration}ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, clip-path 400ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, -webkit-clip-path 400ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
-        willChange: visible ? 'auto' : 'transform, opacity, clip-path',
+          : `opacity ${duration}ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, transform ${duration}ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
+        willChange: visible ? 'auto' : 'transform, opacity',
       }}
     >
       {children}

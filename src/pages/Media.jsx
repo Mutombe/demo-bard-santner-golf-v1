@@ -1,16 +1,54 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { X, CaretLeft, CaretRight, MagnifyingGlass } from '@phosphor-icons/react';
 import PageTransition from '../components/PageTransition';
 import SectionReveal from '../components/SectionReveal';
+import CountUp from '../components/CountUp';
 import SEO from '../components/SEO';
 import { gallery } from '../data/siteData';
 
 const FILTERS = ['All', 'Tournament', 'Course', 'Clubhouse', 'Players'];
 
+// Individual parallax column — slightly different rate per column
+function MasonryColumn({ col, colIdx, onOpen, scrollY }) {
+  const rate = [40, -30, 25][colIdx] || 0;
+  const y = useTransform(scrollY, [0, 2000], [0, rate]);
+
+  return (
+    <motion.div style={{ y }} className="flex flex-col gap-3 sm:gap-5">
+      {col.map((g) => (
+        <motion.button
+          key={g.idx}
+          layoutId={`gallery-${g.idx}`}
+          onClick={() => onOpen(g.idx)}
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 30 }}
+          className="group relative block text-left overflow-hidden bg-white"
+        >
+          <motion.img
+            src={g.src}
+            alt={g.caption}
+            loading="lazy"
+            className="w-full h-auto object-cover object-center block"
+            onError={(e) => (e.currentTarget.style.display = 'none')}
+          />
+          <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-navy-950/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+            <p className="label-xs text-orange-400 mb-1">{g.category}</p>
+            <p className="text-white text-xs line-clamp-2">{g.caption}</p>
+          </div>
+        </motion.button>
+      ))}
+    </motion.div>
+  );
+}
+
 export default function Media() {
   const [filter, setFilter] = useState('All');
   const [query, setQuery] = useState('');
   const [lightboxIdx, setLightboxIdx] = useState(null);
+  const scrollRef = useRef(null);
+  const { scrollY } = useScroll();
 
   const filtered = useMemo(() => {
     let out = gallery;
@@ -43,12 +81,21 @@ export default function Media() {
     return () => document.removeEventListener('keydown', onKey);
   }, [lightboxIdx, close, prev, next]);
 
-  // Masonry column distribution (3-col on lg, 2-col on sm)
+  // Masonry column distribution (3-col)
   const masonry = useMemo(() => {
     const cols = [[], [], []];
     filtered.forEach((g, i) => cols[i % 3].push({ ...g, idx: i }));
     return cols;
   }, [filtered]);
+
+  // Count by category for the chip labels
+  const categoryCounts = useMemo(() => {
+    const counts = { All: gallery.length };
+    FILTERS.slice(1).forEach((f) => {
+      counts[f] = gallery.filter((g) => g.category === f).length;
+    });
+    return counts;
+  }, []);
 
   return (
     <PageTransition>
@@ -63,8 +110,11 @@ export default function Media() {
             THE<br />
             <span className="text-orange-500">GALLERY.</span>
           </h1>
-          <p className="mt-6 max-w-xl text-steel-300 text-lg">
-            The face of the tournament. {gallery.length} images from the course, clubhouse, players,
+          <p className="mt-6 max-w-xl text-steel-300 text-lg rich-copy">
+            The face of the tournament —{' '}
+            <CountUp to={gallery.length} className="!text-orange-400 font-bold" duration={1200} /> images from the{' '}
+            <Link to="/course" className="prose-link !text-orange-400">course</Link>, clubhouse,{' '}
+            <a href="https://www.instagram.com/bardsantnerinc" target="_blank" rel="noopener noreferrer" className="prose-link !text-orange-400">players' feed</a>,
             and podium celebrations.
           </p>
         </div>
@@ -75,17 +125,21 @@ export default function Media() {
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             {FILTERS.map((f) => (
-              <button
+              <motion.button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-3 sm:px-4 py-2 label-xs font-bold border-2 transition ${
+                whileTap={{ scale: 0.94 }}
+                className={`px-3 sm:px-4 py-2 label-xs font-bold border-2 transition inline-flex items-center gap-2 ${
                   filter === f
                     ? 'bg-navy-900 border-navy-900 text-white'
                     : 'bg-white border-steel-300 text-navy-900 hover:border-navy-900'
                 }`}
               >
                 {f.toUpperCase()}
-              </button>
+                <span className={`text-[10px] tabular-nums px-1.5 py-0.5 ${filter === f ? 'bg-orange-500 text-white' : 'bg-steel-100 text-steel-500'}`}>
+                  {categoryCounts[f]}
+                </span>
+              </motion.button>
             ))}
           </div>
           <div className="relative w-full sm:w-72">
@@ -101,89 +155,81 @@ export default function Media() {
         </div>
       </section>
 
-      {/* Masonry grid */}
-      <section className="bg-steel-50 py-8 sm:py-14">
+      {/* Masonry grid with per-column parallax */}
+      <section className="bg-steel-50 py-8 sm:py-14" ref={scrollRef}>
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           {filtered.length === 0 ? (
             <div className="text-center py-20">
               <p className="label-xs text-steel-500 mb-3">NO MATCHES</p>
-              <p className="text-navy-900 text-lg">Try another filter or search term.</p>
+              <p className="text-navy-900 text-lg rich-copy">
+                Try another <button onClick={() => setFilter('All')} className="prose-link !border-none !bg-transparent">filter</button> or search term.
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
               {masonry.map((col, ci) => (
-                <div key={ci} className="flex flex-col gap-3 sm:gap-5">
-                  {col.map((g) => (
-                    <button
-                      key={g.idx}
-                      onClick={() => setLightboxIdx(g.idx)}
-                      className="group relative block text-left photo-hover overflow-hidden bg-white"
-                    >
-                      <img
-                        src={g.src}
-                        alt={g.caption}
-                        loading="lazy"
-                        className="w-full h-auto object-cover object-center block"
-                        onError={(e) => (e.currentTarget.style.display = 'none')}
-                      />
-                      <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-navy-950/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                        <p className="label-xs text-orange-400 mb-1">{g.category}</p>
-                        <p className="text-white text-xs line-clamp-2">{g.caption}</p>
-                      </div>
-                    </button>
-                  ))}
-                </div>
+                <MasonryColumn key={ci} col={col} colIdx={ci} onOpen={setLightboxIdx} scrollY={scrollY} />
               ))}
             </div>
           )}
         </div>
       </section>
 
-      {/* Lightbox */}
-      {lightboxIdx !== null && (
-        <div
-          className="fixed inset-0 z-[70] bg-navy-950/98 flex items-center justify-center p-4 sm:p-8"
-          onClick={close}
-        >
-          <button
+      {/* Lightbox with layoutId zoom-in */}
+      <AnimatePresence>
+        {lightboxIdx !== null && (
+          <motion.div
+            className="fixed inset-0 z-[70] bg-navy-950/98 flex items-center justify-center p-4 sm:p-8"
             onClick={close}
-            aria-label="Close"
-            className="absolute top-4 right-4 h-12 w-12 bg-white text-navy-900 flex items-center justify-center hover:bg-orange-500 hover:text-white transition z-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
           >
-            <X size={22} weight="bold" />
-          </button>
+            <button
+              onClick={close}
+              aria-label="Close"
+              className="absolute top-4 right-4 h-12 w-12 bg-white text-navy-900 flex items-center justify-center hover:bg-orange-500 hover:text-white transition z-10"
+            >
+              <X size={22} weight="bold" />
+            </button>
 
-          <button
-            onClick={(e) => { e.stopPropagation(); prev(); }}
-            aria-label="Previous"
-            className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 bg-white/10 hover:bg-orange-500 text-white flex items-center justify-center transition"
-          >
-            <CaretLeft size={24} weight="bold" />
-          </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); prev(); }}
+              aria-label="Previous"
+              className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 bg-white/10 hover:bg-orange-500 text-white flex items-center justify-center transition"
+            >
+              <CaretLeft size={24} weight="bold" />
+            </button>
 
-          <button
-            onClick={(e) => { e.stopPropagation(); next(); }}
-            aria-label="Next"
-            className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 bg-white/10 hover:bg-orange-500 text-white flex items-center justify-center transition"
-          >
-            <CaretRight size={24} weight="bold" />
-          </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); next(); }}
+              aria-label="Next"
+              className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 bg-white/10 hover:bg-orange-500 text-white flex items-center justify-center transition"
+            >
+              <CaretRight size={24} weight="bold" />
+            </button>
 
-          <div className="max-w-5xl max-h-[85vh] flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
-            <img
-              src={filtered[lightboxIdx].src}
-              alt={filtered[lightboxIdx].caption}
-              className="max-w-full max-h-[78vh] object-contain"
-            />
-            <div className="mt-4 text-center">
-              <p className="label-xs text-orange-400 mb-2">
-                {filtered[lightboxIdx].category} · {lightboxIdx + 1} / {filtered.length}
-              </p>
-              <p className="text-white text-sm sm:text-base">{filtered[lightboxIdx].caption}</p>
-            </div>
-          </div>
-        </div>
-      )}
+            <motion.div
+              layoutId={`gallery-${lightboxIdx}`}
+              className="max-w-5xl max-h-[85vh] flex flex-col items-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={filtered[lightboxIdx].src}
+                alt={filtered[lightboxIdx].caption}
+                className="max-w-full max-h-[78vh] object-contain"
+              />
+              <div className="mt-4 text-center">
+                <p className="label-xs text-orange-400 mb-2">
+                  {filtered[lightboxIdx].category} · <CountUp to={lightboxIdx + 1} duration={600} /> / <CountUp to={filtered.length} duration={600} />
+                </p>
+                <p className="text-white text-sm sm:text-base">{filtered[lightboxIdx].caption}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </PageTransition>
   );
 }

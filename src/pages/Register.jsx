@@ -1,4 +1,5 @@
 import React, { useReducer, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import {
@@ -8,6 +9,8 @@ import {
 
 import PageTransition from '../components/PageTransition';
 import TeeTimeSlot from '../components/TeeTimeSlot';
+import FairwayProgress from '../components/FairwayProgress';
+import CountUp from '../components/CountUp';
 import SEO from '../components/SEO';
 import { calendar, teeTimeSlots, business } from '../data/siteData';
 
@@ -39,7 +42,6 @@ function reducer(state, action) {
   }
 }
 
-// ============ Steps =============
 const steps = [
   { id: 0, label: 'EVENT', icon: CalIcon },
   { id: 1, label: 'PLAYER', icon: User },
@@ -90,14 +92,12 @@ export default function Register() {
   };
 
   const handleSubmit = () => {
-    // TODO: Wire to Django backend POST /api/register/
     const message = buildMessage();
     const waUrl = `https://wa.me/${business.phoneDigits}?text=${encodeURIComponent(message)}`;
     try {
       window.open(waUrl, '_blank', 'noopener,noreferrer');
       toast.success('Opening WhatsApp with your registration...');
     } catch (err) {
-      // fallback to email
       const mailto = `mailto:${business.emailGolf}?subject=${encodeURIComponent('Bard Santner Road to S.A. — Registration')}&body=${encodeURIComponent(message)}`;
       window.location.href = mailto;
       toast.info('Falling back to email.');
@@ -112,7 +112,7 @@ export default function Register() {
       />
 
       {/* Page hero */}
-      <section className="relative bg-navy-950 text-white pt-24 sm:pt-32 pb-14 sm:pb-20 overflow-hidden">
+      <section className="relative bg-navy-950 text-white pt-24 sm:pt-32 pb-10 sm:pb-14 overflow-hidden">
         <div className="absolute inset-0 grid-lines opacity-40" />
         <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
           <p className="label-xs text-orange-500 mb-4"><span className="animate-keyline">REGISTRATION / MULTI-STEP ENTRY</span></p>
@@ -120,10 +120,19 @@ export default function Register() {
             BOOK YOUR<br />
             <span className="text-orange-500">TEE-TIME.</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-steel-300 text-lg">
-            Five steps. Pick the round, confirm your handicap, claim your wave,
-            add contact details — and we'll confirm your slot on the grid.
+          <p className="mt-6 max-w-2xl text-steel-300 text-lg rich-copy">
+            <CountUp to={5} className="!text-orange-400 font-semibold" duration={900} /> steps.
+            Pick the round, confirm your handicap, claim your wave, add contact details — and we'll confirm
+            your slot on the grid by <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" className="prose-link !text-orange-400">WhatsApp</a>.
+            Review our <Link to="/conditions" className="prose-link !text-orange-400">tournament conditions</Link> first.
           </p>
+        </div>
+      </section>
+
+      {/* Fairway progress bar — steps visualised as a golf hole */}
+      <section className="bg-white border-b-2 border-navy-900">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12">
+          <FairwayProgress step={step} />
         </div>
       </section>
 
@@ -151,7 +160,7 @@ export default function Register() {
                     </div>
                     <div className="hidden md:block text-left">
                       <p className={`label-xs ${active ? 'text-orange-500' : done ? 'text-navy-900' : 'text-steel-300'}`}>
-                        STEP 0{i + 1}
+                        STEP <CountUp to={i + 1} pad={2} duration={600} />/<CountUp to={steps.length} pad={2} duration={600} />
                       </p>
                       <p className={`text-sm font-bold ${active ? 'text-navy-900' : done ? 'text-navy-900' : 'text-steel-300'}`}>
                         {s.label}
@@ -171,18 +180,18 @@ export default function Register() {
       {/* Form body */}
       <section className="bg-steel-50 py-10 sm:py-16">
         <div className="max-w-3xl mx-auto px-5 sm:px-8">
-          <AnimatePresence mode="wait">
-            {/* ======================================= Step 0 — Event */}
+          <AnimatePresence mode="popLayout">
+            {/* Step 0 — Event */}
             {step === 0 && (
               <motion.div
                 key="step-0"
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="bg-white border-2 border-navy-900 p-6 sm:p-10"
               >
-                <p className="label-xs text-orange-500 mb-3">STEP 01 / EVENT</p>
+                <p className="label-xs text-orange-500 mb-3">STEP <CountUp to={1} pad={2} duration={600} /> / EVENT</p>
                 <h2 className="font-display text-3xl sm:text-4xl uppercase text-navy-900 leading-tight mb-8">
                   WHICH ROUND<br />ARE YOU RUNNING?
                 </h2>
@@ -217,20 +226,24 @@ export default function Register() {
                     </label>
                   ))}
                 </div>
+
+                <p className="mt-6 text-xs text-steel-500 rich-copy">
+                  Not sure? <Link to="/calendar" className="prose-link">Browse the 9-round calendar</Link>.
+                </p>
               </motion.div>
             )}
 
-            {/* ======================================= Step 1 — Personal */}
+            {/* Step 1 — Personal */}
             {step === 1 && (
               <motion.div
                 key="step-1"
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="bg-white border-2 border-navy-900 p-6 sm:p-10"
               >
-                <p className="label-xs text-orange-500 mb-3">STEP 02 / PLAYER</p>
+                <p className="label-xs text-orange-500 mb-3">STEP <CountUp to={2} pad={2} duration={600} /> / PLAYER</p>
                 <h2 className="font-display text-3xl sm:text-4xl uppercase text-navy-900 leading-tight mb-8">
                   WHO'S ON THE<br />STARTING GRID?
                 </h2>
@@ -264,32 +277,36 @@ export default function Register() {
                   <Field label="Royal Harare Membership # *" value={state.membershipNumber} onChange={(v) => dispatch({ type: 'SET', field: 'membershipNumber', value: v })} />
                 </div>
 
-                <div className="mt-6 p-4 bg-navy-50 border-l-4 border-orange-500">
-                  <p className="text-xs text-steel-600">
-                    <span className="label-xs text-orange-500">REMINDER</span><br />
-                    Max Handicap Index: <b>21.2</b> (Men) · <b>26.2</b> (Women). Only fully paid-up Royal Harare members are eligible.
+                <div className="mt-6 p-4 bg-orange-50 border-l-4 border-orange-500">
+                  <p className="text-xs text-steel-700 rich-copy">
+                    <span className="label-xs text-orange-600">REMINDER</span><br />
+                    Max Handicap Index: <b><CountUp to={212} duration={1000} className="!text-navy-900" />/10</b> (Men) ·{' '}
+                    <b><CountUp to={262} duration={1000} className="!text-navy-900" />/10</b> (Women). Only fully paid-up{' '}
+                    <Link to="/course" className="prose-link">Royal Harare</Link> members are eligible — see{' '}
+                    <Link to="/conditions#eligibility" className="prose-link">Tournament Conditions §03</Link>.
                   </p>
                 </div>
               </motion.div>
             )}
 
-            {/* ======================================= Step 2 — Slot */}
+            {/* Step 2 — Slot */}
             {step === 2 && (
               <motion.div
                 key="step-2"
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="bg-white border-2 border-navy-900 p-6 sm:p-10"
               >
-                <p className="label-xs text-orange-500 mb-3">STEP 03 / SLOT</p>
+                <p className="label-xs text-orange-500 mb-3">STEP <CountUp to={3} pad={2} duration={600} /> / SLOT</p>
                 <h2 className="font-display text-3xl sm:text-4xl uppercase text-navy-900 leading-tight mb-3">
                   PICK YOUR<br />TEE WAVE.
                 </h2>
-                <p className="text-steel-600 text-sm mb-8">
-                  Three waves per round. Choose your lane — Bard Santner will confirm the exact
-                  tee-time in your draw email.
+                <p className="text-steel-600 text-sm mb-8 rich-copy">
+                  <CountUp to={3} className="!text-orange-600 font-bold" /> waves per round. Choose your lane —{' '}
+                  <a href="https://bardsantner.com" target="_blank" rel="noopener noreferrer" className="prose-link">Bard Santner</a> will
+                  confirm the exact tee-time in your <Link to="/contact" className="prose-link">draw email</Link>.
                 </p>
 
                 <div className="grid grid-cols-1 gap-4">
@@ -304,24 +321,28 @@ export default function Register() {
                   ))}
                 </div>
 
-                <div className="mt-8 pt-6 border-t-2 border-steel-100 flex items-start gap-3 text-xs text-steel-600">
+                <div className="mt-8 pt-6 border-t-2 border-steel-100 flex items-start gap-3 text-xs text-steel-600 rich-copy">
                   <Lightning size={18} className="text-orange-500 shrink-0 mt-0.5" weight="fill" />
-                  <p>Late on the tee &gt; 5 min = <b className="text-navy-900">disqualification</b> (Rule 5.3a). Be on the grid early.</p>
+                  <p>
+                    Late on the tee &gt; <CountUp to={5} className="!text-orange-600 font-bold" duration={900} /> min ={' '}
+                    <b className="text-navy-900">disqualification</b> (<Link to="/conditions#late" className="prose-link">Rule 5.3a</Link>).
+                    Be on the grid early.
+                  </p>
                 </div>
               </motion.div>
             )}
 
-            {/* ======================================= Step 3 — Contact */}
+            {/* Step 3 — Contact */}
             {step === 3 && (
               <motion.div
                 key="step-3"
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="bg-white border-2 border-navy-900 p-6 sm:p-10"
               >
-                <p className="label-xs text-orange-500 mb-3">STEP 04 / CONTACT</p>
+                <p className="label-xs text-orange-500 mb-3">STEP <CountUp to={4} pad={2} duration={600} /> / CONTACT</p>
                 <h2 className="font-display text-3xl sm:text-4xl uppercase text-navy-900 leading-tight mb-8">
                   HOW DO WE<br />REACH YOU?
                 </h2>
@@ -352,7 +373,12 @@ export default function Register() {
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label className="label-xs text-navy-900 block mb-2">Prize giving attendance * <span className="text-orange-500">(MANDATORY — within 30 min of final card)</span></label>
+                    <label className="label-xs text-navy-900 block mb-2">
+                      Prize giving attendance *{' '}
+                      <span className="text-orange-500">
+                        (MANDATORY — within <CountUp to={30} className="!text-orange-600" duration={900} /> min of final card)
+                      </span>
+                    </label>
                     <div className="flex gap-3">
                       {['Yes', 'No'].map((v) => (
                         <button
@@ -367,7 +393,7 @@ export default function Register() {
                               : 'bg-white border-steel-300 text-navy-900 hover:border-navy-900'
                           }`}
                         >
-                          {v === 'Yes' ? 'YES — I\'LL BE THERE' : 'NO'}
+                          {v === 'Yes' ? "YES — I'LL BE THERE" : 'NO'}
                         </button>
                       ))}
                     </div>
@@ -376,39 +402,77 @@ export default function Register() {
               </motion.div>
             )}
 
-            {/* ======================================= Step 4 — Review */}
+            {/* Step 4 — Review (scorecard styled) */}
             {step === 4 && (
               <motion.div
                 key="step-4"
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white border-2 border-navy-900 p-6 sm:p-10"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="relative bg-[#fdfaf2] border-4 border-navy-900 p-6 sm:p-10"
+                style={{
+                  backgroundImage: 'linear-gradient(180deg, rgba(232,119,34,0.04) 0%, rgba(253,250,242,1) 30%)',
+                  boxShadow: '8px 8px 0 0 #E87722',
+                }}
               >
-                <p className="label-xs text-orange-500 mb-3">STEP 05 / REVIEW</p>
-                <h2 className="font-display text-3xl sm:text-4xl uppercase text-navy-900 leading-tight mb-8">
-                  CONFIRM YOUR<br />STARTING GRID.
+                {/* Brass corners */}
+                <span className="absolute top-0 left-0 h-6 w-6 border-t-4 border-l-4 border-orange-500" />
+                <span className="absolute top-0 right-0 h-6 w-6 border-t-4 border-r-4 border-orange-500" />
+                <span className="absolute bottom-0 left-0 h-6 w-6 border-b-4 border-l-4 border-orange-500" />
+                <span className="absolute bottom-0 right-0 h-6 w-6 border-b-4 border-r-4 border-orange-500" />
+
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-14 w-14 bg-orange-500 flex items-center justify-center font-display text-white text-2xl">
+                    <CountUp to={5} pad={2} duration={900} />
+                  </div>
+                  <div>
+                    <p className="label-xs text-orange-600">OFFICIAL SCORECARD · BARD SANTNER</p>
+                    <p className="font-display text-2xl uppercase text-navy-900">REVIEW & CONFIRM</p>
+                  </div>
+                </div>
+
+                <h2 className="font-display text-3xl sm:text-4xl uppercase text-navy-900 leading-tight mb-8 pb-4 border-b-2 border-navy-900">
+                  YOUR STARTING<br />GRID CARD.
                 </h2>
 
-                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm">
-                  <ReviewRow label="Event" value={upcomingEvents.find((e) => e.value === state.event)?.label || '—'} />
-                  <ReviewRow label="Player" value={`${state.firstName} ${state.surname} (${state.gender})`} />
-                  <ReviewRow label="Club" value={state.club} />
-                  <ReviewRow label="Handicap" value={`HNA ${state.handicap}`} />
-                  <ReviewRow label="Membership #" value={state.membershipNumber} />
-                  <ReviewRow label="Tee Wave" value={teeTimeSlots.find((s) => s.id === state.slot)?.label || '—'} />
-                  <ReviewRow label="Cell" value={state.cell} />
-                  <ReviewRow label="Email" value={state.email} />
-                  <ReviewRow label="Shirt Size" value={state.shirtSize} />
-                  <ReviewRow label="Prize Giving" value={state.prizeGiving} />
-                  {state.dietary && <ReviewRow label="Dietary" value={state.dietary} />}
+                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm font-mono">
+                  <ScorecardRow label="Event" value={upcomingEvents.find((e) => e.value === state.event)?.label || '—'} />
+                  <ScorecardRow label="Player" value={`${state.firstName} ${state.surname} (${state.gender})`} />
+                  <ScorecardRow label="Club" value={state.club} />
+                  <ScorecardRow label="Handicap" value={`HNA ${state.handicap}`} />
+                  <ScorecardRow label="Membership #" value={state.membershipNumber} />
+                  <ScorecardRow label="Tee Wave" value={teeTimeSlots.find((s) => s.id === state.slot)?.label || '—'} />
+                  <ScorecardRow label="Cell" value={state.cell} />
+                  <ScorecardRow label="Email" value={state.email} />
+                  <ScorecardRow label="Shirt Size" value={state.shirtSize} />
+                  <ScorecardRow label="Prize Giving" value={state.prizeGiving} />
+                  {state.dietary && <ScorecardRow label="Dietary" value={state.dietary} />}
                 </dl>
 
-                <div className="mt-10 pt-8 border-t-2 border-navy-900">
-                  <p className="text-sm text-steel-600 mb-6">
-                    Your registration will be sent through WhatsApp (or email fallback) for
-                    confirmation by the Tournament Organiser.
+                {/* Signature line — scribble-in */}
+                <div className="mt-10 pt-6 border-t-2 border-dashed border-navy-900/30">
+                  <p className="label-xs text-steel-500 mb-2">PLAYER SIGNATURE</p>
+                  <svg width="240" height="44" viewBox="0 0 240 44" className="animate-scribble" aria-hidden="true">
+                    <path
+                      d="M 10 30 Q 25 10, 45 25 T 85 28 Q 105 15, 130 30 T 175 26 Q 200 20, 225 32"
+                      stroke="var(--color-navy-900)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      fill="none"
+                    />
+                  </svg>
+                  <div className="h-0.5 bg-navy-900 w-64" />
+                  <p className="label-xs text-steel-500 mt-2">X {state.firstName} {state.surname}</p>
+                </div>
+
+                <div className="mt-8 pt-8 border-t-2 border-navy-900">
+                  <p className="text-sm text-steel-700 mb-6 rich-copy">
+                    Your registration will be sent through{' '}
+                    <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" className="prose-link">WhatsApp</a>{' '}
+                    (or <a href={`mailto:${business.emailGolf}`} className="prose-link">email fallback</a>) for
+                    confirmation by the Tournament Organiser — usually within{' '}
+                    <CountUp to={60} className="!text-orange-600 font-bold" duration={900} /> minutes on weekdays.
                   </p>
                   <div className="flex flex-wrap items-center gap-4">
                     <button
@@ -465,27 +529,47 @@ export default function Register() {
   );
 }
 
-// ========== Small form primitives ==========
 function Field({ label, value, onChange, type = 'text', placeholder = '' }) {
+  const [focused, setFocused] = React.useState(false);
   return (
     <div>
       <label className="label-xs text-navy-900 block mb-2">{label}</label>
-      <input
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full px-4 py-3 border-2 border-steel-300 focus:border-orange-500 focus:outline-none bg-white text-navy-900 transition"
-      />
+      <div className="relative">
+        <input
+          type={type}
+          value={value}
+          placeholder={placeholder}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full px-4 py-3 border-2 border-steel-300 focus:border-orange-500 focus:outline-none bg-white text-navy-900 transition"
+        />
+        {/* Golf-ball underline on focus */}
+        <div
+          className="absolute left-0 right-0 bottom-0 h-0.5 bg-orange-500 transition-transform duration-400 origin-left"
+          style={{
+            transform: focused ? 'scaleX(1)' : 'scaleX(0)',
+            transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          }}
+        />
+        <div
+          className="absolute bottom-0 w-3 h-3 -mb-1.5 bg-white rounded-full border-2 border-orange-500 transition-all duration-500 shadow"
+          style={{
+            left: focused ? 'calc(100% - 16px)' : '0px',
+            opacity: focused ? 1 : 0,
+            transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          }}
+        />
+      </div>
     </div>
   );
 }
 
-function ReviewRow({ label, value }) {
+function ScorecardRow({ label, value }) {
   return (
-    <div className="border-b border-steel-100 pb-3">
-      <dt className="label-xs text-steel-500 mb-1">{label}</dt>
-      <dd className="text-navy-900 font-semibold">{value}</dd>
+    <div className="flex items-baseline justify-between gap-3 border-b border-navy-900/15 pb-2">
+      <dt className="label-xs text-steel-600 shrink-0">{label}</dt>
+      <dd className="text-navy-900 font-semibold text-right break-words max-w-[65%] font-mono tabular-nums">{value || '—'}</dd>
     </div>
   );
 }
